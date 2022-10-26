@@ -50,6 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button btnCamera;
     private Uri postPhoto;
     private PostFragment postFragment;
+    private LatLng konum;
     ActivityResultLauncher<String> permissionLauncher;
     LocationManager locationManager;
     LocationListener locationListener;
@@ -95,7 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onLocationChanged(@NonNull Location location) {
                 System.out.println("location => "+ location.toString());
 
-                SharedPreferences sharedPreferences = MapsActivity.this.getSharedPreferences("com.tunc.javamapsexampleone",MODE_PRIVATE);
+                SharedPreferences sharedPreferences = MapsActivity.this.getSharedPreferences("com.tunc.xlocal",MODE_PRIVATE);
                 boolean info = sharedPreferences.getBoolean("info",false);
 
                 final LatLng denem = new LatLng(location.getLatitude(),location.getLongitude());
@@ -103,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Marker deneme = mMap.addMarker(new MarkerOptions().position(denem).title("merhaba"));
                 Marker deneme2 = mMap.addMarker(new MarkerOptions().position(denem2).title("merhaba2"));
 
+                konum = denem;
 
 
                 //markerClick
@@ -162,8 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-        // 41.06938503508804, 28.980521174791235
-        LatLng caglayanAdliyesi = new LatLng(41.06938503508804,28.980521174791235);
+
 
     }
 
@@ -189,7 +190,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void openCamera(View view){
+
         Intent goToPostActivity = new Intent(this,PostActivity.class);
+        goToPostActivity.putExtra("konum",konum);
         startActivity(goToPostActivity);
 
     }

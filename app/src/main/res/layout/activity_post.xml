@@ -23,7 +23,7 @@
         android:id="@+id/postButtonInPostActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="sendPost"
+        android:onClick="savePost"
         android:layout_marginBottom="82dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"

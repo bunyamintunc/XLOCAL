@@ -4,32 +4,35 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.tunc.xlocal.databinding.ActivityPostBinding;
 
+
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Random;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 
 public class PostActivity extends AppCompatActivity {
@@ -39,6 +42,14 @@ public class PostActivity extends AppCompatActivity {
     private ActivityPostBinding binding;
     private StorageReference mf;
     private EditText textAciklama;
+    LocationListener locationListener;
+    private FirebaseAuth auth;
+    private LatLng konum;
+    Uri imageUri;
+    private Date currentDate;
+    FirebaseStorage firebaseStorage;
+    StorageReference storageReference;
+    private FirebaseFirestore firebaseFirestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +63,18 @@ public class PostActivity extends AppCompatActivity {
         img =binding.ImageVievPostActivity;
         takePhoto = binding.postButtonInPostActivity;
 
+        auth = FirebaseAuth.getInstance();
+
         mf = FirebaseStorage.getInstance().getReference();
         img.setImageResource(R.drawable.indir);
+
+        currentDate = Calendar.getInstance().getTime();
+
+        konum = (LatLng) getIntent().getExtras().get("konum");
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
     }
 
     public void uploadImageView(View view){
@@ -82,8 +103,8 @@ public class PostActivity extends AppCompatActivity {
         //img.setImageBitmap(foto);
 
         String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),foto,"val",null);
-        Uri uri = Uri.parse(path);
-        img.setImageURI(uri);
+        imageUri = Uri.parse(path);
+        img.setImageURI(imageUri);
 
      }
 
@@ -99,10 +120,66 @@ public class PostActivity extends AppCompatActivity {
          });
      }
 
-     public  void savePost(){
+     public  void savePost(View view){
         String aciklama = textAciklama.getText().toString();
 
+        //kullanıcı bilgileri
+         FirebaseUser curentUser = auth.getCurrentUser();
+         String currentUserUuid = curentUser.getUid();
+
+         Date date = new Date();
+
+
+         // konum ve açıklamanın olup olmadığı kontrolü
+        if(aciklama.equals("") || konum == null || imageUri == null){
+            Toast.makeText(this, "Fotoğraf ve konum bilgisi boş olamaz", Toast.LENGTH_SHORT).show();
+        }else{
+            String profilImageName = "images/postPhoto/"+currentUserUuid+".jpg";
+
+            storageReference.child("post/image/").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    StorageReference newReferance = firebaseStorage.getReference(profilImageName);
+                    newReferance.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String postImageDownloadUrl = uri.toString();
+                            String aciklama = textAciklama.getText().toString();
+                            String userUuid = currentUserUuid.toString();
+                            double latitude = konum.latitude;
+                            double longitude  = konum.longitude;
+                            Date date = currentDate;
+
+
+                            HashMap<String,Object> postData = new HashMap<>();
+                            postData.put("user_uuid",userUuid);
+                            postData.put("aciklama",aciklama);
+                            postData.put("post_image_download_url",postImageDownloadUrl);
+                            postData.put("latitude",latitude);
+                            postData.put("longitude",longitude);
+                            postData.put("date",date);
+                            postData.put("countOfLike",0);
+                            postData.put("countOfConfirm",0);
+                            postData.put("countOfJoin",0);
+                            postData.put("countOfComment",0);
+
+                            firebaseFirestore.collection("Post").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Toast.makeText(PostActivity.this,"Başarılı",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
      }
+
+     public void postAddFireBase(){
+
+     }
+
 
 
 
