@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "689835169617",
+    "project_id": "xlocal-ef895",
+    "storage_bucket": "xlocal-ef895.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689835169617:android:595276cfd404b176f96570",
+        "android_client_info": {
+          "package_name": "com.tunc.xlocal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689835169617-3s97sbe867lemf6t4bt3ubmnqe6dmvfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ1b8i3aacvpGdPEEotWnOUmvt7cqHjgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689835169617-3s97sbe867lemf6t4bt3ubmnqe6dmvfc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
