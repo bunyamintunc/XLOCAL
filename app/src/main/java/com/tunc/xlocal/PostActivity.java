@@ -16,6 +16,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.tunc.xlocal.databinding.ActivityPostBinding;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,15 +34,23 @@ import java.util.Random;
 
 public class PostActivity extends AppCompatActivity {
 
-    ImageView img;
-    Button takePhoto;
+    private ImageView img;
+    private  Button takePhoto;
+    private ActivityPostBinding binding;
     private StorageReference mf;
+    private EditText textAciklama;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
-        img = findViewById(R.id.ImageVievPostActivity);
-        takePhoto = findViewById(R.id.postButtonInPostActivity);
+        binding = ActivityPostBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+
+        textAciklama = binding.editTextAciklamaPostActivity;
+
+        img =binding.ImageVievPostActivity;
+        takePhoto = binding.postButtonInPostActivity;
 
         mf = FirebaseStorage.getInstance().getReference();
         img.setImageResource(R.drawable.indir);
@@ -75,19 +85,23 @@ public class PostActivity extends AppCompatActivity {
         Uri uri = Uri.parse(path);
         img.setImageURI(uri);
 
-        save(array);
      }
 
 
 
-     public void save(byte[] array){
+     public void save(Uri uri){
          StorageReference sr = mf.child("myImages/a.jpg");
-         sr.putBytes(array).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+         sr.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
              @Override
              public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                 System.out.println("Başarılı");
              }
          });
+     }
+
+     public  void savePost(){
+        String aciklama = textAciklama.getText().toString();
+
      }
 
 

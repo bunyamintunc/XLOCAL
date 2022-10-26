@@ -4,6 +4,7 @@
     package="com.tunc.xlocal">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-feature android:name="android.hardware.camera"></uses-feature>
     <application
         android:allowBackup="true"
