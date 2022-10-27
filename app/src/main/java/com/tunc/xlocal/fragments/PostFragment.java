@@ -18,27 +18,13 @@ import com.tunc.xlocal.R;
 public class PostFragment extends Fragment {
 
 
-
-    View view;
-    ImageView postImageInPostFragment;
-    private Button btnPostPostFragment;
-    private Uri uri;
-
-
-    public PostFragment(Uri uri){
-      this.uri = uri;
-    }
-
+     //Post fragment icin degiskenler
+    private View view;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.post_fragment,container,false);
-        postImageInPostFragment = view.findViewById(R.id.ImageVievPostFragment);
-        btnPostPostFragment = view.findViewById(R.id.postButtonInPostFragment);
-        postImageInPostFragment.setImageURI(uri);
-        btnPostPostFragment.setOnClickListener(view -> {
-            Toast.makeText(getContext(), "I am working  ", Toast.LENGTH_SHORT).show();
-        });
+
         return  view;
     }
 }

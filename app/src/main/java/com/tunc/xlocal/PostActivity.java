@@ -134,9 +134,9 @@ public class PostActivity extends AppCompatActivity {
         if(aciklama.equals("") || konum == null || imageUri == null){
             Toast.makeText(this, "Fotoğraf ve konum bilgisi boş olamaz", Toast.LENGTH_SHORT).show();
         }else{
-            String profilImageName = "images/postPhoto/"+currentUserUuid+".jpg";
+            String profilImageName = "images/postPhoto/"+currentUserUuid+date+".jpg";
 
-            storageReference.child("post/image/").putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            storageReference.child(profilImageName).putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     StorageReference newReferance = firebaseStorage.getReference(profilImageName);
