@@ -1,11 +1,9 @@
 package com.tunc.xlocal;
 
-import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -17,13 +15,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -32,18 +28,22 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.tunc.xlocal.databinding.ActivityMapsBinding;
-import com.tunc.xlocal.fragments.MenuFragment;
 import com.tunc.xlocal.fragments.PostFragment;
+import com.tunc.xlocal.model.Post;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private   GoogleMap mMap;
+    private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -51,10 +51,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Uri postPhoto;
     private PostFragment postFragment;
     private LatLng konum;
-    ActivityResultLauncher<String> permissionLauncher;
-    LocationManager locationManager;
-    LocationListener locationListener;
-
+    private ActivityResultLauncher<String> permissionLauncher;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth auth;
+    private ArrayList<Post> postArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +64,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        postArray = new ArrayList<Post>();
+        auth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         reqisterLauncher();
+
+        getPosts();
+
+
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
 
 
 
@@ -88,6 +102,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
+
         //LocationManager --> konum yöneticisi android konumu izni alır.
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         //locakasyon dinleyici
@@ -95,16 +111,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 //  System.out.println("location => "+ location.toString());
-
                 SharedPreferences sharedPreferences = MapsActivity.this.getSharedPreferences("com.tunc.xlocal",MODE_PRIVATE);
                 boolean info = sharedPreferences.getBoolean("info",false);
 
-                final LatLng denem = new LatLng(location.getLatitude(),location.getLongitude());
-                final LatLng denem2 = new LatLng(38.491835125018774, 27.707989784067973);
-                Marker deneme = mMap.addMarker(new MarkerOptions().position(denem).title("merhaba"));
-                Marker deneme2 = mMap.addMarker(new MarkerOptions().position(denem2).title("merhaba2"));
+                //gelen postların harita üzerinde görüntülenmesi
+                for(Post post : postArray){
+                    final LatLng postLocationLatLng = new LatLng(post.latitute,post.longitute);
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(postLocationLatLng).title(post.userUudi));
+                }
 
-                konum = denem;
+
+
 
 
                 //markerClick
@@ -122,7 +139,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
 
-
                 if(info == false){
 
 
@@ -133,8 +149,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                 }
-
-
             }
         };
 
@@ -163,19 +177,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastUserLocation,16));
             }
         }
-
-
-
     }
-
-
-
-
-
-
-
-
-
 
     public void removePostFragmentOnMapsActivity(){
         if( postFragment != null){
@@ -197,8 +199,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-
     private void reqisterLauncher(){
         permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
             @Override
@@ -219,6 +219,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
 
 
+
                     }
 
                 }else{
@@ -227,6 +228,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+    }
+
+    public  void getPosts(){
+
+        firebaseFirestore.collection("Post").addSnapshotListener((value, error) -> {
+
+            if (value.isEmpty()){
+                Toast.makeText(this, " There is an error in the getPost Method", Toast.LENGTH_SHORT).show();
+            }else{
+                // Eğer post sorgusu boş değilse postları bir post tipindeki array'e atıyoruz.
+
+                for(DocumentSnapshot document : value.getDocuments()){
+                    Post getPost = new Post();
+                    getPost.countOfComment = (long) document.get("countOfComment");
+                    getPost.countOfConfirm = (long) document.get("countOfConfirm");
+                    getPost.countOfJoin = (long) document.get("countOfJoin");
+                    getPost.countOfLike = (long) document.get("countOfLike");
+                    getPost.date = document.getDate("date");
+                    getPost.description = document.get("aciklama").toString();
+                    getPost.postImageDownloadUrl = document.get("post_image_download_url").toString();
+                    getPost.userUudi = document.get("user_uuid").toString();
+                    getPost.latitute =(double) document.get("latitude");
+                    getPost.longitute = (double) document.get("longitude");
+                    postArray.add(getPost);
+
+                }
+
+
+
+
+            }
+
+
+
+        });
+
     }
 
 
