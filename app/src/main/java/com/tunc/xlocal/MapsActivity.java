@@ -111,14 +111,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 //  System.out.println("location => "+ location.toString());
+                System.out.println(postArray.get(0));
                 SharedPreferences sharedPreferences = MapsActivity.this.getSharedPreferences("com.tunc.xlocal",MODE_PRIVATE);
                 boolean info = sharedPreferences.getBoolean("info",false);
+
+                final LatLng nowLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                konum = nowLocation;
 
                 //gelen postların harita üzerinde görüntülenmesi
                 for(Post post : postArray){
                     final LatLng postLocationLatLng = new LatLng(post.latitute,post.longitute);
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(postLocationLatLng).title(post.userUudi));
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(postLocationLatLng));
+                    marker.setTag(post);
                 }
+
 
 
 
@@ -128,13 +134,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
-                        // System.out.println("bastım");
-                        // mMap.setInfoWindowAdapter(new MarkerInfoWindowAdapter(MapsActivity.this));
+                        // marker'a tıklandiginda post fragmenti maps fragmente bağalyıp marker nesenisi
+                        // post fragment'e atiyoruz goruntulemek icin
+                        fragmentManager = getSupportFragmentManager();
+                        fragmentTransaction = fragmentManager.beginTransaction();
 
-
-
-
-                        // showCustomAlert();
+                        postFragment = new PostFragment(marker);
+                        fragmentTransaction.add(R.id.map, postFragment).commit();
                         return false;
                     }
                 });
@@ -264,6 +270,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         });
 
+    }
+
+    //postFragment'i maps fragmentten kaldiriyoruz.
+    public void removePostFragmentInMapsFragment(){
+        if(postFragment != null) {
+            getSupportFragmentManager().beginTransaction().remove(postFragment).commit();
+        }
     }
 
 

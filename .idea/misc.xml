@@ -5,7 +5,12 @@
       <map>
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2195" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/custom_input.xml" value="0.1" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/ic_icon_close_24.xml" value="0.1545" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/ic_icon_comment_24.xml" value="0.1545" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/ic_icon_confirm_24.xml" value="0.1545" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/ic_icon_join_24.xml" value="0.1545" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/ic_icon_like_24.xml" value="0.1675" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/ic_icon_post_24.xml" value="0.1545" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2195" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_maps.xml" value="0.1" />
