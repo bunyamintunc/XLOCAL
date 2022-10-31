@@ -111,7 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 //  System.out.println("location => "+ location.toString());
-                System.out.println(postArray.get(0));
+
                 SharedPreferences sharedPreferences = MapsActivity.this.getSharedPreferences("com.tunc.xlocal",MODE_PRIVATE);
                 boolean info = sharedPreferences.getBoolean("info",false);
 
@@ -247,27 +247,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 for(DocumentSnapshot document : value.getDocuments()){
                     Post getPost = new Post();
-                    getPost.countOfComment = (long) document.get("countOfComment");
-                    getPost.countOfConfirm = (long) document.get("countOfConfirm");
-                    getPost.countOfJoin = (long) document.get("countOfJoin");
-                    getPost.countOfLike = (long) document.get("countOfLike");
+                    getPost.countOfComment = (long) document.get("count_of_comment");
+                    getPost.countOfConfirm = (long) document.get("count_of_confirm");
+                    getPost.countOfJoin = (long) document.get("count_of_join");
+                    getPost.countOfLike = (long) document.get("count_of_like");
                     getPost.date = document.getDate("date");
-                    getPost.description = document.get("aciklama").toString();
+                    getPost.description = document.get("desciription").toString();
                     getPost.postImageDownloadUrl = document.get("post_image_download_url").toString();
                     getPost.userUudi = document.get("user_uuid").toString();
                     getPost.latitute =(double) document.get("latitude");
                     getPost.longitute = (double) document.get("longitude");
+                    getPost.documentId = document.getId();
                     postArray.add(getPost);
 
                 }
-
-
-
-
             }
-
-
-
         });
 
     }

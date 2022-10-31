@@ -1,5 +1,9 @@
 package com.tunc.xlocal.model;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.local.ReferenceSet;
+
+import java.lang.ref.Reference;
 import java.util.Date;
 
 public class Post {
@@ -15,6 +19,7 @@ public class Post {
     public long countOfConfirm;
     public long countOfJoin;
     public long countOfLike;
+    public String documentId;
 
     public Post(String description, String userUudi, String postImageDownloadUrl, double latitute, double longitute, Date date, int countOfComment, int countOfConfirm, int countOfJoin, int countOfLike) {
         this.description = description;

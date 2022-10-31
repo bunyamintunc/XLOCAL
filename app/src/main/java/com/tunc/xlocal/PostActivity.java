@@ -42,14 +42,16 @@ public class PostActivity extends AppCompatActivity {
     private ActivityPostBinding binding;
     private StorageReference mf;
     private EditText textAciklama;
-    LocationListener locationListener;
+    private LocationListener locationListener;
     private FirebaseAuth auth;
     private LatLng konum;
-    Uri imageUri;
+    private Uri imageUri;
     private Date currentDate;
-    FirebaseStorage firebaseStorage;
-    StorageReference storageReference;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
     private FirebaseFirestore firebaseFirestore;
+    private FirebaseUser curentUser;
+    private String documentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +126,7 @@ public class PostActivity extends AppCompatActivity {
         String aciklama = textAciklama.getText().toString();
 
         //kullanıcı bilgileri
-         FirebaseUser curentUser = auth.getCurrentUser();
+         curentUser = auth.getCurrentUser();
          String currentUserUuid = curentUser.getUid();
 
          Date date = new Date();
@@ -153,19 +155,20 @@ public class PostActivity extends AppCompatActivity {
 
                             HashMap<String,Object> postData = new HashMap<>();
                             postData.put("user_uuid",userUuid);
-                            postData.put("aciklama",aciklama);
+                            postData.put("desciription",aciklama);
                             postData.put("post_image_download_url",postImageDownloadUrl);
                             postData.put("latitude",latitude);
                             postData.put("longitude",longitude);
                             postData.put("date",date);
-                            postData.put("countOfLike",0);
-                            postData.put("countOfConfirm",0);
-                            postData.put("countOfJoin",0);
-                            postData.put("countOfComment",0);
+                            postData.put("count_of_like",0);
+                            postData.put("count_of_confirm",0);
+                            postData.put("count_of_join",0);
+                            postData.put("count_of_comment",0);
 
                             firebaseFirestore.collection("Post").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
+                                    createOtherTableForPost(documentReference.getId());
                                     Toast.makeText(PostActivity.this,"Başarılı",Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -174,9 +177,20 @@ public class PostActivity extends AppCompatActivity {
                 }
             });
         }
+
      }
 
-     public void postAddFireBase(){
+     public void createOtherTableForPost(String documentId){
+
+         HashMap<String,Object> data = new HashMap<>();
+         data.put("user_uuid",curentUser.getUid());
+         firebaseFirestore.collection("PostTable").document(documentId).collection("Likes").add(data);
+         firebaseFirestore.collection("PostTable").document(documentId).collection("Joins").add(data);
+         firebaseFirestore.collection("PostTable").document(documentId).collection("Confirms").add(data);
+         firebaseFirestore.collection("PostTable").document(documentId).collection("Comments").add(data);
+
+
+
 
      }
 
