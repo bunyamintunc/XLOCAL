@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +15,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
@@ -189,7 +188,33 @@ public class PostFragment extends Fragment {
     }
 
     public void disLike(){
+          firebaseFirestore.collection("PostTable").document(post.documentId).collection("Likes")
+                  .whereEqualTo("user_uuid",auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                      @Override
+                      public void onSuccess(QuerySnapshot documnetQuery) {
+                          if (documnetQuery.isEmpty()){
 
+                          }else{
+                             for(QueryDocumentSnapshot document : documnetQuery){
+                                 firebaseFirestore.collection("PostTable").document(post.documentId).collection("Likes").document(document.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                     @Override
+                                     public void onSuccess(Void unused) {
+
+                                     }
+                                 }).addOnFailureListener(new OnFailureListener() {
+                                     @Override
+                                     public void onFailure(@NonNull Exception e) {
+                                         Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_LONG).show();
+                                     }
+                                 });
+                             }
+                             like = like - 1;
+                             firebaseFirestore.collection("Post").document(post.documentId).update("count_of_like",(long) like);
+                             btnLike.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.ic_icon_like_24));
+                             textCountLike.setText(String.valueOf(like));
+                          }
+                      }
+                  });
     }
 
 }
