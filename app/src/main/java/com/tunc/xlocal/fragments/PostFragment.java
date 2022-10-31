@@ -235,14 +235,40 @@ public class PostFragment extends Fragment {
             likeData.put("user_uuid",auth.getCurrentUser().getUid());
             firebaseFirestore.collection("PostTable").document(post.documentId).collection("Joins").add(likeData);
             join = join + 1;
-            firebaseFirestore.collection("Post").document(post.documentId).update("count_of_join",(long) like);
-            textCountJoin.setText(String.valueOf(like));
+            firebaseFirestore.collection("Post").document(post.documentId).update("count_of_join",(long) join);
+            textCountJoin.setText(String.valueOf(join));
         }
     }
 
     // katilmama drumu
     public void disagree(){
+        firebaseFirestore.collection("PostTable").document(post.documentId).collection("Joins")
+                .whereEqualTo("user_uuid",auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documnetQuery) {
+                        if (documnetQuery.isEmpty()){
 
+                        }else{
+                            for(QueryDocumentSnapshot document : documnetQuery){
+                                firebaseFirestore.collection("PostTable").document(post.documentId).collection("Joins").document(document.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                            join = join - 1;
+                            firebaseFirestore.collection("Post").document(post.documentId).update("count_of_join",(long) join);
+                            btnJoin.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.ic_icon_join_24));
+                            textCountJoin.setText(String.valueOf(join));
+                        }
+                    }
+                });
     }
 
 
