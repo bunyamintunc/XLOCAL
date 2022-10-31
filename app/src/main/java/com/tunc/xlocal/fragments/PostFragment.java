@@ -35,7 +35,7 @@ public class PostFragment extends Fragment {
      //Post fragment icin degiskenler
     private View view;
     private Marker marker;
-    private Button btnClose, btnLike;
+    private Button btnClose, btnLike, btnJoin;
     private PostFragmentBinding binding;
     private ImageView postImageView;
     private Post post;
@@ -57,6 +57,7 @@ public class PostFragment extends Fragment {
         //view uzerindeki elemanlar bulunuyor.
         insertDefaultValues();
         isLike();
+        isJoin();
 
         return  view;
     }
@@ -108,6 +109,12 @@ public class PostFragment extends Fragment {
             like();
         });
 
+        // Mevcut kullanici katilim
+        btnJoin = binding.btnJoin;
+        btnJoin.setOnClickListener(view -> {
+              join();
+        });
+
 
 
 
@@ -150,6 +157,7 @@ public class PostFragment extends Fragment {
                             result = false;
                         }else{
                             result = true;
+                            btnJoin.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.ic_icon_when_join_24));
                         }
                     }
                 });
@@ -216,5 +224,27 @@ public class PostFragment extends Fragment {
                       }
                   });
     }
+
+    public void join(){
+        boolean isJoinResult = isJoin();
+
+        if(isJoinResult){
+           disagree();
+        }else{
+            HashMap<String,Object> likeData = new HashMap<>();
+            likeData.put("user_uuid",auth.getCurrentUser().getUid());
+            firebaseFirestore.collection("PostTable").document(post.documentId).collection("Joins").add(likeData);
+            join = join + 1;
+            firebaseFirestore.collection("Post").document(post.documentId).update("count_of_join",(long) like);
+            textCountJoin.setText(String.valueOf(like));
+        }
+    }
+
+    // katilmama drumu
+    public void disagree(){
+
+    }
+
+
 
 }
