@@ -18,7 +18,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -58,6 +61,7 @@ public class PostFragment extends Fragment {
         insertDefaultValues();
         isLike();
         isJoin();
+        getPost();
 
         return  view;
     }
@@ -271,6 +275,21 @@ public class PostFragment extends Fragment {
                 });
     }
 
+    public void getPost(){
+        firebaseFirestore.collection("Post").document(post.documentId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.getData().isEmpty()){
+
+                }else{
+                    textCountLike.setText(String.valueOf(documentSnapshot.get("count_of_like")));
+                    textCountComment.setText(String.valueOf(documentSnapshot.get("count_of_comment")));
+                    textCountJoin.setText(String.valueOf(documentSnapshot.get("count_of_join")));
+                    textCountConfirm.setText(String.valueOf(documentSnapshot.get("count_of_confirm")));
+                }
+            }
+        });
+    }
 
 
 }
