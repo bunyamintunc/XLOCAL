@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.tunc.xlocal.MainActivity;
 import com.tunc.xlocal.Profile;
@@ -37,14 +38,15 @@ public class ProfileDetailsFragment  extends Fragment {
     Profile profileActivity;
     FirebaseFirestore firebaseFirestore;
     User newUser;
+    private boolean isCurrentUserResult = false;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.profile_details_fragment,container,false);
 
-
-
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
              insertToDetails();
 
              getUserDetails();
@@ -65,14 +67,14 @@ public class ProfileDetailsFragment  extends Fragment {
         return view;
     }
     public void insertToDetails(){
-        auth = FirebaseAuth.getInstance();
+
 
         profilePhoto = view.findViewById(R.id.profilPhoto);
         userName = view.findViewById(R.id.textViewUserDetailUserName);
         userEmail = view.findViewById(R.id.textViewUserDetailEmail);
         goToEditProfileButton = view.findViewById(R.id.btnGoToEditProfile);
         profileActivity = (Profile) getActivity();
-        firebaseFirestore = FirebaseFirestore.getInstance();
+
 
 
         profilePhoto.setImageResource(R.drawable.indir);
@@ -82,30 +84,38 @@ public class ProfileDetailsFragment  extends Fragment {
     }
 
     public void getUserDetails(){
-        FirebaseUser user = auth.getCurrentUser();
-        firebaseFirestore.collection("Users/").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+
+        if(isCurrentUserResult){
+
+        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-               String name = (String) value.getData().get("name");
-               String username = (String) value.getData().get("userName");
-               String surname = (String) value.getData().get("surname");
-               String gender =  (String) value.getData().get("gender");
-               String profilUrl = (String) value.getData().get("profilePhotoDowloadUrl");
 
-               System.out.println(name +" "+ surname);
-                 newUser = (User) new User(name,username,surname,gender,profilUrl);
-                 System.out.println("ABC");
+                        String name = (String) value.getData().get("name");
+                        String username = (String) value.getData().get("userName");
+                        String surname = (String) value.getData().get("surname");
+                        String gender =  (String) value.getData().get("gender");
+                        String profilUrl = (String) value.getData().get("profilePhotoDowloadUrl");
 
-                if(newUser != null){
+                        System.out.println(name +" "+ surname);
+                        newUser = (User) new User(name,username,surname,gender,profilUrl);
+                        System.out.println("ABC");
 
-                    insertToVeriableForCurrentUser();
-                }else{
-                    System.out.println(newUser);
-                    userName.setText(auth.getCurrentUser().getUid());
-                    userEmail.setText(auth.getCurrentUser().getEmail());
-                }
+
+
+                    if(newUser != null){
+
+                        insertToVeriableForCurrentUser();
+                    }
+
+
             }
         });
+        }else{
+            System.out.println(newUser);
+            userName.setText(auth.getCurrentUser().getUid());
+            userEmail.setText(auth.getCurrentUser().getEmail());
+        }
 
 
     }
@@ -116,6 +126,23 @@ public class ProfileDetailsFragment  extends Fragment {
         userName.setText(name);
         userEmail.setText(username);
         Picasso.get().load(newUser.getProfilUrl()).into(profilePhoto);
+    }
+
+    public boolean isCurrentUser(){
+        firebaseFirestore.collection("Users").addSnapshotListener((value, error) -> {
+            if (value.isEmpty()){
+                Toast.makeText(getContext(), "users table is empty", Toast.LENGTH_SHORT).show();
+            }else{
+
+                for(DocumentSnapshot document : value.getDocuments()){
+                    if(document.getId() == auth.getCurrentUser().getUid()){
+                        isCurrentUserResult = true;
+                    }
+                }
+
+            }
+        });
+        return isCurrentUserResult;
     }
 
 
