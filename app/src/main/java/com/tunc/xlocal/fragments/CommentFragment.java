@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,11 +26,13 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 import com.tunc.xlocal.R;
 import com.tunc.xlocal.adapter.CommentAdapter;
 import com.tunc.xlocal.databinding.CommentFragmentBinding;
 import com.tunc.xlocal.databinding.PostFragmentBinding;
 import com.tunc.xlocal.model.Comment;
+import com.tunc.xlocal.model.Post;
 import com.tunc.xlocal.model.User;
 
 import java.lang.reflect.Method;
@@ -46,16 +50,20 @@ public class CommentFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseFirestore firebaseFirestore;
     private String postId;
-    private boolean isCurrentUserResult;
-    private User user;
+
     private String userName,userDownloadUrl;
     private PostFragment postFragment;
-    private String fragmentTag;
 
+    private Post post;
+    private ImageView postImage;
+    private TextView postDescription;
 
-    public CommentFragment(String postId,PostFragment postFragment){
+    private ArrayList<Comment> commentList;
+
+    public CommentFragment(String postId,PostFragment postFragment,Post post){
         this.postId = postId;
         this.postFragment = postFragment;
+        this.post = post;
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
     }
@@ -69,10 +77,15 @@ public class CommentFragment extends Fragment {
         binding = CommentFragmentBinding.inflate(inflater,container,false);
         view = binding.getRoot();
 
+        getUserDetails();
 
 
+        postDescription = binding.commentTextPost;
+        postImage = binding.commnetRowImageView;
+        postDescription.setText(post.description);
+        Picasso.get().load(post.postImageDownloadUrl).into(postImage);
 
-
+        commentEditText = binding.commentEditText;
 
 
         btnDoComment = binding.btnComment;
@@ -91,16 +104,36 @@ public class CommentFragment extends Fragment {
 
 
 
+
+
         return view;
     }
 
 
 
-    public void getComment(){
+    public void getComments(){
 
+        firebaseFirestore.collection("PostTable").document(postId).collection("Comments").addSnapshotListener((value, error) -> {
+
+            if(value.isEmpty()){
+
+            }else{
+
+                for(DocumentSnapshot document : value.getDocuments()){
+                     Comment comment = new Comment();
+                     comment.comment = document.get("comment").toString();
+                     comment.userName = document.get("user_name").toString();
+                     comment.imageUrl = document.get("user_image").toString();
+                     comment.userUuid = document.get("user_uuid").toString();
+                     commentList.add(comment);
+                }
+
+            }
+        });
     }
 
     public void doComment(){
+
         HashMap<String,Object> commentData = new HashMap<>();
         commentData.put("user_uuid",auth.getCurrentUser().getUid());
         commentData.put("user_name",userName);
@@ -110,36 +143,27 @@ public class CommentFragment extends Fragment {
         firebaseFirestore.collection("PostTable").document(postId).collection("Comments").add(commentData);
     }
 
+
+
+
+
     public void getUserDetails(){
-        if(isCurrentUserResult){
-            firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                     userName = value.getData().get("userName").toString();
-                     userDownloadUrl = value.getData().get("profilePhotoDowloadUrl").toString();
-                }
-            });
-        }else{
-            userName = auth.getCurrentUser().getEmail();
-            userDownloadUrl = " ";
-        }
-    }
 
-    public boolean isCurrentUser(){
-        firebaseFirestore.collection("Users").addSnapshotListener((value, error) -> {
-            if (value.isEmpty()){
-                Toast.makeText(getContext(), "users table is empty", Toast.LENGTH_SHORT).show();
-            }else{
-
-                for(DocumentSnapshot document : value.getDocuments()){
-                    if(document.getId() == auth.getCurrentUser().getUid()){
-                        isCurrentUserResult = true;
-                    }
-                }
-
+        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).get().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                userName= auth.getCurrentUser().getEmail();
+                userDownloadUrl = "null";
+            }
+        }).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userName = documentSnapshot.get("userName").toString();
+                userDownloadUrl = documentSnapshot.get("profilePhotoDowloadUrl").toString();
             }
         });
-        return isCurrentUserResult;
     }
+
+
 
 }

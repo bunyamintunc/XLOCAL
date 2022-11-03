@@ -307,7 +307,7 @@ public class PostFragment extends Fragment {
         fragmentTransaction = fragmentManager.beginTransaction();
         mapsActivity.hiddeButton();
         onPause();
-        commentFragment = new CommentFragment(post.documentId, this);
+        commentFragment = new CommentFragment(post.documentId, this,post);
         fragmentTransaction.add(this.getId(), commentFragment).commit();
 
     }
