@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,7 +40,7 @@ public class PostFragment extends Fragment {
      //Post fragment icin degiskenler
     private View view;
     private Marker marker;
-    private Button btnClose, btnLike, btnJoin;
+    private Button btnClose, btnLike, btnJoin,btnComment;
     private PostFragmentBinding binding;
     private ImageView postImageView;
     private Post post;
@@ -50,6 +52,9 @@ public class PostFragment extends Fragment {
     private FirebaseStorage firebaseStorage;
     private String postDocumentId;
     private boolean result;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private CommentFragment commentFragment;
 
     @Nullable
     @Override
@@ -119,6 +124,11 @@ public class PostFragment extends Fragment {
               join();
         });
 
+
+         btnComment = binding.btnComment;
+         btnComment.setOnClickListener(view -> {
+             doComment();
+         });
 
 
 
@@ -290,6 +300,28 @@ public class PostFragment extends Fragment {
             }
         });
     }
+
+    //yorumlari görmek veya yorum yapmak icin comment fragmentini post fragmnetine bagliyoruz.
+    public void doComment(){
+        fragmentManager = getParentFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        mapsActivity.hiddeButton();
+        onPause();
+        commentFragment = new CommentFragment(post.documentId, this);
+        fragmentTransaction.add(this.getId(), commentFragment).commit();
+
+    }
+
+    public void closeCommentFragment(){
+        if(commentFragment != null){
+            getParentFragmentManager().beginTransaction().remove(commentFragment).commit();
+            commentFragment = null;
+
+            //fragment kapandıktan sonra kamera galeri ve profil butonları yeniden göster
+            mapsActivity.showButton();
+        }
+    }
+
 
 
 }

@@ -44,20 +44,20 @@ import java.util.HashMap;
 
 public class ProfileEditFragment extends Fragment {
 
-    View view;
-    Button saveChaneButton;
-    EditText firstName;
-    ImageView profilPhoto;
-    EditText surname;
-    EditText userName;
-    EditText gender;
-    FirebaseAuth auth;
-    FirebaseFirestore firebaseFirestore;
-    FirebaseStorage firebaseStorage;
-    StorageReference storageReference;
-    Uri imageData;
-    ActivityResultLauncher<Intent> activityResultLauncher;
-    ActivityResultLauncher<String> permissionLauncher;
+    private View view;
+    private Button saveChaneButton;
+    private EditText firstName;
+    private ImageView profilPhoto;
+    private EditText surname;
+    private EditText userName;
+    private EditText gender;
+    private FirebaseAuth auth;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
+    private Uri imageData;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private ActivityResultLauncher<String> permissionLauncher;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

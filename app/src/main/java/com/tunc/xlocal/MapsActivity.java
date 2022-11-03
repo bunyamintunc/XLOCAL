@@ -1,5 +1,7 @@
 package com.tunc.xlocal;
 
+import static android.view.View.GONE;
+
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -39,6 +41,8 @@ import com.tunc.xlocal.databinding.ActivityMapsBinding;
 import com.tunc.xlocal.fragments.PostFragment;
 import com.tunc.xlocal.model.Post;
 
+import org.checkerframework.checker.index.qual.PolyUpperBound;
+
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -47,7 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-    private Button btnCamera;
+    private Button btnCamera, btnProfil, btnGallery;
     private Uri postPhoto;
     private PostFragment postFragment;
     private LatLng konum;
@@ -67,6 +71,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         postArray = new ArrayList<Post>();
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+        btnCamera = binding.btnCamera;
+        btnProfil = binding.btnProfil;
+        btnGallery = binding.btnGalery;
+
 
         reqisterLauncher();
 
@@ -132,15 +141,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 //markerClick
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
                         // marker'a tıklandiginda post fragmenti maps fragmente bağalyıp marker nesenisi
                         // post fragment'e atiyoruz goruntulemek icin
-                        fragmentManager = getSupportFragmentManager();
-                        fragmentTransaction = fragmentManager.beginTransaction();
 
-                        postFragment = new PostFragment(marker);
-                        fragmentTransaction.add(R.id.map, postFragment).commit();
+                        if( postFragment == null){
+                            fragmentManager = getSupportFragmentManager();
+                            fragmentTransaction = fragmentManager.beginTransaction();
+
+                            postFragment = new PostFragment(marker);
+                            fragmentTransaction.add(R.id.map, postFragment).commit();
+                        }else{
+
+                        }
+
                         return false;
                     }
                 });
@@ -270,8 +287,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void removePostFragmentInMapsFragment(){
         if(postFragment != null) {
             getSupportFragmentManager().beginTransaction().remove(postFragment).commit();
+            postFragment = null;
         }
     }
+
+    //maps activity'deki butonlar gizleniyor.
+    public void hiddeButton(){
+        btnCamera.setVisibility(binding.getRoot().INVISIBLE);
+        btnProfil.setVisibility(binding.getRoot().INVISIBLE);
+        btnGallery.setVisibility(binding.getRoot().INVISIBLE);
+    }
+
+    //maps activity'deki butonlar gösteriliyor.
+    public void showButton(){
+        btnCamera.setVisibility(binding.getRoot().VISIBLE);
+        btnProfil.setVisibility(binding.getRoot().VISIBLE);
+        btnGallery.setVisibility(binding.getRoot().VISIBLE);
+    }
+
+
 
 
 
