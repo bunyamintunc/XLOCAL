@@ -51,6 +51,7 @@ public class CommentFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     private String postId;
 
+
     private String userName,userDownloadUrl;
     private PostFragment postFragment;
 
@@ -64,8 +65,8 @@ public class CommentFragment extends Fragment {
         this.postId = postId;
         this.postFragment = postFragment;
         this.post = post;
-        auth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
+
+
     }
 
 
@@ -77,7 +78,14 @@ public class CommentFragment extends Fragment {
         binding = CommentFragmentBinding.inflate(inflater,container,false);
         view = binding.getRoot();
 
+        commentList = new ArrayList<>();
+        auth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+
         getUserDetails();
+        getComments();
+
 
 
         postDescription = binding.commentTextPost;
@@ -94,6 +102,7 @@ public class CommentFragment extends Fragment {
 
              }else{
                  doComment();
+
              }
         });
 
@@ -106,30 +115,41 @@ public class CommentFragment extends Fragment {
 
 
 
+
+
+
         return view;
     }
 
 
 
     public void getComments(){
-
-        firebaseFirestore.collection("PostTable").document(postId).collection("Comments").addSnapshotListener((value, error) -> {
+        firebaseFirestore.collection("PostTable").document(post.documentId).collection("Comments").addSnapshotListener((value, error) -> {
 
             if(value.isEmpty()){
 
             }else{
 
                 for(DocumentSnapshot document : value.getDocuments()){
-                     Comment comment = new Comment();
-                     comment.comment = document.get("comment").toString();
-                     comment.userName = document.get("user_name").toString();
-                     comment.imageUrl = document.get("user_image").toString();
-                     comment.userUuid = document.get("user_uuid").toString();
-                     commentList.add(comment);
+                    Comment comment = new Comment();
+                   comment.userName =  document.get("user_name").toString();
+                   comment.comment = document.get("comment").toString();
+                   comment.imageUrl =  document.get("profil_photo_url").toString();
+                   comment.userUuid =  document.get("user_uuid").toString();
+                   commentList.add(comment);
                 }
 
+
             }
+
+            binding.recyclerViewCommentFragment.setLayoutManager(new LinearLayoutManager(this.getContext()));
+            commentAdapter = new CommentAdapter(commentList);
+            binding.recyclerViewCommentFragment.setAdapter(commentAdapter);
+
         });
+
+
+
     }
 
     public void doComment(){

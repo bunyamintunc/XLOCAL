@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_marginTop="5sp"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/commnetRowImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="5dp"
+
+
+        tools:srcCompat="@tools:sample/avatars" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/commentRowUserName"
+            android:layout_width="120dp"
+            android:layout_height="25dp"
+            android:textSize="20sp"
+            android:layout_marginStart="5sp"
+
+            android:hint="user name" />
+
+        <TextView
+            android:id="@+id/commentRowComment"
+            android:layout_width="280sp"
+            android:layout_height="54sp"
+            android:layout_marginStart="5sp"
+            android:textAlignment="center"
+            android:hint="deneme için acilmis yorum satiri" />
+
+    </LinearLayout>
+</LinearLayout>
