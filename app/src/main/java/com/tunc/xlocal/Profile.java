@@ -29,9 +29,12 @@ public class Profile extends AppCompatActivity {
 
 
     public  void getProfileDetailsFragment(){
+        if(profileEditFragment != null){
+            removeProfileEditFragment();
+        }
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        profileDetailsFragment = new ProfileDetailsFragment();
+        profileDetailsFragment = new ProfileDetailsFragment(this);
         fragmentTransaction.add(R.id.profileActivity,profileDetailsFragment).commit();
     }
 
@@ -39,13 +42,14 @@ public class Profile extends AppCompatActivity {
         removeProfileDetailsFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        profileEditFragment = new ProfileEditFragment();
+        profileEditFragment = new ProfileEditFragment(this);
         fragmentTransaction.add(R.id.profileActivity,profileEditFragment).commit();
     }
 
     public void removeProfileDetailsFragment(){
         if( profileDetailsFragment != null ){
             getSupportFragmentManager().beginTransaction().remove(profileDetailsFragment).commit();
+            profileDetailsFragment = null;
         }
     }
 
@@ -53,6 +57,7 @@ public class Profile extends AppCompatActivity {
     public  void removeProfileEditFragment(){
         if( profileEditFragment != null){
             getSupportFragmentManager().beginTransaction().remove(profileEditFragment).commit();
+            profileEditFragment = null;
         }
     }
 }

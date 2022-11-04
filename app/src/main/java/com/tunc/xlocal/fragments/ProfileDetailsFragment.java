@@ -39,6 +39,11 @@ public class ProfileDetailsFragment  extends Fragment {
     FirebaseFirestore firebaseFirestore;
     User newUser;
     private boolean isCurrentUserResult = false;
+    private Profile profile;
+
+    public ProfileDetailsFragment(Profile profile){
+        this.profileActivity = profile;
+    }
 
     @Nullable
     @Override
@@ -73,7 +78,7 @@ public class ProfileDetailsFragment  extends Fragment {
         userName = view.findViewById(R.id.textViewUserDetailUserName);
         userEmail = view.findViewById(R.id.textViewUserDetailEmail);
         goToEditProfileButton = view.findViewById(R.id.btnGoToEditProfile);
-        profileActivity = (Profile) getActivity();
+
 
 
 

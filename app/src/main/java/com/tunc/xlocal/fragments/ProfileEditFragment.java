@@ -6,6 +6,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ProviderInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -58,6 +59,14 @@ public class ProfileEditFragment extends Fragment {
     private Uri imageData;
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ActivityResultLauncher<String> permissionLauncher;
+
+
+    private Profile profileActivity;
+
+    public ProfileEditFragment(Profile profile){
+        this.profileActivity = profile;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,6 +88,7 @@ public class ProfileEditFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 saveUserInfo();
+
             }
         });
         return view;
@@ -186,7 +196,7 @@ public class ProfileEditFragment extends Fragment {
                         firebaseFirestore.collection("Users").document(userUuid).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(getContext(),"Succesful",Toast.LENGTH_LONG).show();
+                                  profileActivity.getProfileDetailsFragment();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

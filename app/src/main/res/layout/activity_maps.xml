@@ -18,6 +18,7 @@
             tools:context=".MapsActivity" />
 
     <LinearLayout
+        android:background="#A3FBFAFA"
         android:layout_width="match_parent"
         android:layout_height="101dp"
 
@@ -39,24 +40,26 @@
         <Button
             android:id="@+id/btnCamera"
             android:layout_width="50dp"
+            android:background="@drawable/ic_icon_camera_24"
             android:color="@android:color/darker_gray"
             android:layout_height="80dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:onClick="openCamera"
             android:layout_weight="1"
-            android:text="Button" />
+           />
 
         <Button
             android:id="@+id/btnProfil"
             android:layout_width="50dp"
+            android:background="@drawable/ic_icon_profile_24"
             android:color="@android:color/darker_gray"
             android:layout_height="80dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:onClick="goToProfile"
             android:layout_weight="1"
-            android:text="Button"
+
             app:layout_constraintBottom_toBottomOf="parent" />
     </LinearLayout>
 
