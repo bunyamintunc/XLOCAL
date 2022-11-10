@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.TransitionRes;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,11 +39,18 @@ public class ProfileDetailsFragment  extends Fragment {
     Profile profileActivity;
     FirebaseFirestore firebaseFirestore;
     User newUser;
-    private boolean isCurrentUserResult = false;
+    private boolean isCurrentUserResult;
     private Profile profile;
 
     public ProfileDetailsFragment(Profile profile){
+
         this.profileActivity = profile;
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+
+
+        isCurrentUser();
     }
 
     @Nullable
@@ -50,14 +58,7 @@ public class ProfileDetailsFragment  extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.profile_details_fragment,container,false);
 
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
              insertToDetails();
-
-             getUserDetails();
-
-
-
 
 
 
@@ -68,20 +69,17 @@ public class ProfileDetailsFragment  extends Fragment {
             }
         });
 
+        getUserDetails();
 
         return view;
     }
-    public void insertToDetails(){
 
+    public void insertToDetails(){
 
         profilePhoto = view.findViewById(R.id.profilPhoto);
         userName = view.findViewById(R.id.textViewUserDetailUserName);
         userEmail = view.findViewById(R.id.textViewUserDetailEmail);
         goToEditProfileButton = view.findViewById(R.id.btnGoToEditProfile);
-
-
-
-
         profilePhoto.setImageResource(R.drawable.indir);
 
 
@@ -103,15 +101,13 @@ public class ProfileDetailsFragment  extends Fragment {
                         String profilUrl = (String) value.getData().get("profilePhotoDowloadUrl");
 
                         System.out.println(name +" "+ surname);
-                        newUser = (User) new User(name,username,surname,gender,profilUrl);
-                        System.out.println("ABC");
+                        newUser = new User(name,username,surname,gender,profilUrl);
 
+                        if(newUser != null){
+                            System.out.println("ben calisiyorum");
+                            insertToVeriableForCurrentUser();
 
-
-                    if(newUser != null){
-
-                        insertToVeriableForCurrentUser();
-                    }
+                         }
 
 
             }
@@ -133,6 +129,7 @@ public class ProfileDetailsFragment  extends Fragment {
         Picasso.get().load(newUser.getProfilUrl()).into(profilePhoto);
     }
 
+
     public boolean isCurrentUser(){
         firebaseFirestore.collection("Users").addSnapshotListener((value, error) -> {
             if (value.isEmpty()){
@@ -140,11 +137,11 @@ public class ProfileDetailsFragment  extends Fragment {
             }else{
 
                 for(DocumentSnapshot document : value.getDocuments()){
-                    if(document.getId() == auth.getCurrentUser().getUid()){
-                        isCurrentUserResult = true;
-                    }
+                        if (auth.getCurrentUser().getUid().equals(document.getId())){
+                            isCurrentUserResult = true;
+                            getUserDetails();
+                        }
                 }
-
             }
         });
         return isCurrentUserResult;

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="400sp"
+    android:layout_height="420sp"
     android:layout_marginTop="60sp"
     android:background="#FBFBFB"
     android:outlineAmbientShadowColor="@android:color/background_dark"
@@ -11,23 +11,25 @@
 
     <ImageView
         android:id="@+id/imageViewPostFragment"
-        android:layout_width="0dp"
+        android:layout_width="400dp"
         android:layout_height="0dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginBottom="10dp"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textMarkerDescription"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnClose"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/btnClose"
-        android:layout_width="30sp"
-        android:layout_height="30sp"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
 
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="22dp"
         android:background="@drawable/ic_icon_close_24"
         android:src="@drawable/ic_icon_close_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,101 +39,139 @@
         android:id="@+id/textMarkerDescription"
         android:layout_width="383dp"
         android:layout_height="67dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="137dp"
+        android:layout_marginBottom="89dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnLike"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-
-        android:layout_marginEnd="18dp"
-        android:background="@drawable/ic_icon_like_24"
-        android:src="@drawable/ic_icon_like_24"
-        app:layout_constraintBottom_toBottomOf="@+id/btnConfirm"
-        app:layout_constraintEnd_toStartOf="@+id/btnConfirm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnConfirm" />
-
-    <Button
-        android:id="@+id/btnConfirm"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="26dp"
-        android:background="@drawable/ic_icon_confirm_24"
-        android:src="@drawable/ic_icon_confirm_24"
-        app:layout_constraintBottom_toBottomOf="@+id/btnJoin"
-        app:layout_constraintEnd_toStartOf="@+id/btnJoin"
-        app:layout_constraintStart_toEndOf="@+id/btnLike"
-        app:layout_constraintTop_toTopOf="@+id/btnJoin" />
 
     <Button
         android:id="@+id/btnJoin"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="95dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="105dp"
         android:background="@drawable/ic_icon_join_24"
         android:src="@drawable/ic_icon_join_24"
         app:layout_constraintBottom_toTopOf="@+id/textJoin"
         app:layout_constraintEnd_toStartOf="@+id/btnComment"
         app:layout_constraintStart_toEndOf="@+id/btnConfirm"
-        app:layout_constraintTop_toBottomOf="@+id/textMarkerDescription" />
+        app:layout_constraintTop_toTopOf="@+id/btnComment" />
 
     <TextView
-        android:id="@+id/textLike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        android:text="12"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="32dp"
-        android:text="123"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnConfirm" />
-
-    <TextView
-        android:id="@+id/textJoin"
+        android:id="@+id/textCommnet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="32dp"
-        android:text="44"
+        android:layout_marginBottom="4dp"
+        android:text="5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnJoin" />
+        app:layout_constraintEnd_toEndOf="@+id/btnComment" />
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="33dp"
+        android:background="@drawable/ic_icon_confirm_24"
+        android:src="@drawable/ic_icon_confirm_24"
+        app:layout_constraintBottom_toTopOf="@+id/textConfirm"
+        app:layout_constraintEnd_toStartOf="@+id/btnJoin"
+        app:layout_constraintStart_toEndOf="@+id/btnLike"
+        app:layout_constraintTop_toTopOf="@+id/btnJoin" />
 
     <Button
         android:id="@+id/btnComment"
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="22dp"
         android:background="@drawable/ic_icon_comment_24"
         android:src="@drawable/ic_icon_comment_24"
-        app:layout_constraintBottom_toBottomOf="@+id/btnJoin"
+        app:layout_constraintBottom_toBottomOf="@+id/textCommnet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnJoin"
-        app:layout_constraintTop_toTopOf="@+id/btnJoin" />
+        app:layout_constraintTop_toBottomOf="@+id/textMarkerDescription" />
 
     <TextView
-        android:id="@+id/textCommnet"
+        android:id="@+id/textJoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginBottom="32dp"
-        android:text="5"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="7dp"
+        android:text="44"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btnComment" />
+        app:layout_constraintStart_toStartOf="@+id/btnJoin" />
+
+    <TextView
+        android:id="@+id/textConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="7dp"
+        android:text="123"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btnConfirm" />
+
+    <Button
+        android:id="@+id/btnLike"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="31dp"
+        android:background="@drawable/ic_icon_like_24"
+        android:src="@drawable/ic_icon_like_24"
+        app:layout_constraintBottom_toTopOf="@+id/textLike"
+        app:layout_constraintEnd_toStartOf="@+id/btnConfirm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnConfirm" />
+
+    <TextView
+        android:id="@+id/textLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="7dp"
+        android:text="12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="365dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="7dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth="wrap_content">
+
+        <ImageView
+            android:id="@+id/postIconImageView"
+            android:layout_width="70sp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5sp"
+            android:layout_weight="1"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/postIconUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="10sp"
+            android:text="TextView"
+            android:textSize="20sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="95dp" />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -89,7 +89,7 @@ public class CommentFragment extends Fragment {
 
 
         postDescription = binding.commentTextPost;
-        postImage = binding.commnetRowImageView;
+        postImage = binding.commentImageView;
         postDescription.setText(post.description);
         Picasso.get().load(post.postImageDownloadUrl).into(postImage);
 
@@ -161,6 +161,7 @@ public class CommentFragment extends Fragment {
         commentData.put("profil_photo_url",userDownloadUrl);
 
         firebaseFirestore.collection("PostTable").document(postId).collection("Comments").add(commentData);
+        commentEditText.setText("");
     }
 
 

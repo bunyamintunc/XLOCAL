@@ -36,7 +36,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
     public void onBindViewHolder(@NonNull CommentHolder holder, int position) {
         holder.recylerRowBinding.commentRowUserName.setText(commentList.get(position).userName);
         holder.recylerRowBinding.commentRowComment.setText(commentList.get(position).comment);
-        Picasso.get().load(commentList.get(position).imageUrl).into(holder.recylerRowBinding.commnetRowImageView);
+        Picasso.get().load(commentList.get(position).imageUrl).into(holder.recylerRowBinding.commentRowImageView);
 
     }
 

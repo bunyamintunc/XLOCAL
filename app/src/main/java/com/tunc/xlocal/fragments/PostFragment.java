@@ -32,6 +32,7 @@ import com.tunc.xlocal.MapsActivity;
 import com.tunc.xlocal.R;
 import com.tunc.xlocal.databinding.PostFragmentBinding;
 import com.tunc.xlocal.model.Post;
+import com.tunc.xlocal.model.User;
 
 import java.util.HashMap;
 
@@ -42,9 +43,9 @@ public class PostFragment extends Fragment {
     private Marker marker;
     private Button btnClose, btnLike, btnJoin,btnComment;
     private PostFragmentBinding binding;
-    private ImageView postImageView;
+    private ImageView postImageView,postIconImageView;
     private Post post;
-    private TextView description, textCountLike, textCountComment, textCountJoin, textCountConfirm;
+    private TextView description, textCountLike, textCountComment, textCountJoin, textCountConfirm, postIconUserName;
     private int like, comment, join, confirm;
     private MapsActivity mapsActivity;
     private FirebaseAuth auth;
@@ -55,6 +56,7 @@ public class PostFragment extends Fragment {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private CommentFragment commentFragment;
+    private User userOfPost;
 
     @Nullable
     @Override
@@ -99,6 +101,9 @@ public class PostFragment extends Fragment {
         textCountJoin = binding.textJoin;
         textCountLike = binding.textLike;
 
+        postIconImageView = binding.postIconImageView;
+        postIconUserName = binding.postIconUserName;
+
         //post'un like, join, confirm comment sayilarini aliyoruz.
         like = (int) post.countOfLike;
         join = (int) post.countOfJoin;
@@ -139,6 +144,8 @@ public class PostFragment extends Fragment {
         textCountLike.setText(String.valueOf(like));
         Picasso.get().load(post.postImageDownloadUrl).into(postImageView);
 
+        //icon icin eklenenler
+         getUserOfPost();
 
 
     }
@@ -322,6 +329,21 @@ public class PostFragment extends Fragment {
         }
     }
 
+    //
+    public void getUserOfPost(){
+        userOfPost = new User();
+        firebaseFirestore.collection("Users").document(post.userUudi).get().addOnSuccessListener(documentSnapshot -> {
+           if (documentSnapshot.getData().isEmpty()){
+
+           }else{
+               postIconUserName.setText(documentSnapshot.get("userName").toString());
+               Picasso.get().load(documentSnapshot.get("profilePhotoDowloadUrl").toString()).into(postIconImageView);
+
+           }
+        }).addOnFailureListener(e -> {
+             Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_LONG).show();
+        });
+    }
 
 
 }
