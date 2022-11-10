@@ -16,16 +16,19 @@
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_maps.xml" value="0.1" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_post.xml" value="0.2" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_profile.xml" value="0.234375" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_user_info.xml" value="0.264" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_user_profile.xml" value="0.25" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/comment_fragment.xml" value="0.264" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/login_fragment.xml" value="0.4" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/menu_fragment.xml" value="0.264" />
-        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/post_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/post_fragment.xml" value="0.1" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/profile_details_fragment.xml" value="0.264" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/profile_edit_fragment.xml" value="0.2" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/rcylerview_comment_row.xml" value="0.4" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/rcylerview_row.xml" value="0.1716485507246377" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/recyler_row.xml" value="0.234375" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/register_fragment.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/user_profile_fragment.xml" value="0.24895833333333334" />
       </map>
     </option>
   </component>

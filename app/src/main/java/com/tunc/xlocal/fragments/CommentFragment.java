@@ -110,14 +110,6 @@ public class CommentFragment extends Fragment {
         btnClose.setOnClickListener(view -> {
              postFragment.closeCommentFragment();
         });
-
-
-
-
-
-
-
-
         return view;
     }
 

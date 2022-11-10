@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,9 @@ public class PostFragment extends Fragment {
     private FragmentTransaction fragmentTransaction;
     private CommentFragment commentFragment;
     private User userOfPost;
+    private LinearLayout linearLayout;
+
+
 
     @Nullable
     @Override
@@ -129,15 +133,22 @@ public class PostFragment extends Fragment {
               join();
         });
 
-
+        // yorum iconuna tıklanması
          btnComment = binding.btnComment;
          btnComment.setOnClickListener(view -> {
              doComment();
          });
 
 
+         // postu paylaşan kullanıcı bilgisine tıklandığında
+         linearLayout = binding.postLinearLayout;
+         linearLayout.setOnClickListener(view -> {
+                gotToProfile();
+         });
 
-        description.setText(postDocumentId);
+
+
+        description.setText(post.description);
         textCountComment.setText(String.valueOf(comment));
         textCountConfirm.setText(String.valueOf(confirm));
         textCountJoin.setText(String.valueOf(join));
@@ -344,6 +355,12 @@ public class PostFragment extends Fragment {
              Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_LONG).show();
         });
     }
+
+    public void gotToProfile(){
+           mapsActivity.goUserInfoActivity();
+    }
+
+
 
 
 }

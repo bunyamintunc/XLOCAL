@@ -5,18 +5,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.widget.Button;
 
-import com.tunc.xlocal.fragments.LoginFragment;
 import com.tunc.xlocal.fragments.ProfileDetailsFragment;
 import com.tunc.xlocal.fragments.ProfileEditFragment;
 
 public class Profile extends AppCompatActivity {
 
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    ProfileDetailsFragment profileDetailsFragment;
-    ProfileEditFragment profileEditFragment;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private ProfileDetailsFragment profileDetailsFragment;
+    private ProfileEditFragment profileEditFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,4 +59,6 @@ public class Profile extends AppCompatActivity {
             profileEditFragment = null;
         }
     }
+
+
 }

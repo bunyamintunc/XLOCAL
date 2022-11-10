@@ -305,6 +305,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnGallery.setVisibility(binding.getRoot().VISIBLE);
     }
 
+    public void goUserInfoActivity(){
+        Intent goToUserInfoActivity = new Intent(this,UserInfoActivity.class);
+        startActivity(goToUserInfoActivity);
+
+    }
+
 
 
 
