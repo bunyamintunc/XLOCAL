@@ -357,7 +357,7 @@ public class PostFragment extends Fragment {
     }
 
     public void gotToProfile(){
-           mapsActivity.goUserInfoActivity();
+           mapsActivity.goUserInfoActivity(post.userUudi);
     }
 
 

@@ -10,12 +10,10 @@
         android:layout_width="403dp"
         android:layout_height="268dp"
 
-        android:layout_marginTop="68dp"
         android:outlineAmbientShadowColor="#00BCD4"
         android:outlineSpotShadowColor="#FF9800"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:layout_editor_absoluteX="4dp"
+        tools:layout_editor_absoluteY="68dp">
 
 
         <ImageView
@@ -58,11 +56,18 @@
         android:id="@+id/btnGoToEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="136dp"
         android:onClick="goToEditProfile"
         android:text="EDİT"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        tools:layout_editor_absoluteX="293dp" />
+
+    <Button
+        android:id="@+id/btnLogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="472dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

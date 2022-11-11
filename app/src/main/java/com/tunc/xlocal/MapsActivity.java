@@ -1,6 +1,6 @@
 package com.tunc.xlocal;
 
-import static android.view.View.GONE;
+
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -211,6 +211,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void goToProfile(View view){
         Intent goToProfileDetailsActivity = new Intent(this,Profile.class);
         startActivity(goToProfileDetailsActivity);
+        finish();
 
     }
 
@@ -305,9 +306,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnGallery.setVisibility(binding.getRoot().VISIBLE);
     }
 
-    public void goUserInfoActivity(){
-        Intent goToUserInfoActivity = new Intent(this,UserInfoActivity.class);
-        startActivity(goToUserInfoActivity);
+
+    /**
+     *
+     * @param userUuid post'un sahibinin id'si, gidilmek istenen user profil.
+     */
+    public void goUserInfoActivity(String userUuid){
+        if (userUuid.equals(auth.getCurrentUser().getUid())){
+            goToProfile(binding.getRoot());
+        }else{
+            Intent goToUserInfoActivity = new Intent(this,UserInfoActivity.class);
+            goToUserInfoActivity.putExtra("user_uuid",userUuid);
+            startActivity(goToUserInfoActivity);
+
+        }
+
 
     }
 

@@ -1,5 +1,6 @@
 package com.tunc.xlocal.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.tunc.xlocal.MainActivity;
+import com.tunc.xlocal.MapsActivity;
 import com.tunc.xlocal.Profile;
 import com.tunc.xlocal.R;
 import com.tunc.xlocal.model.User;
@@ -39,6 +41,7 @@ public class ProfileDetailsFragment  extends Fragment {
     Profile profileActivity;
     FirebaseFirestore firebaseFirestore;
     User newUser;
+    private Button btnLogout;
     private boolean isCurrentUserResult;
     private Profile profile;
 
@@ -81,6 +84,11 @@ public class ProfileDetailsFragment  extends Fragment {
         userEmail = view.findViewById(R.id.textViewUserDetailEmail);
         goToEditProfileButton = view.findViewById(R.id.btnGoToEditProfile);
         profilePhoto.setImageResource(R.drawable.indir);
+        btnLogout = view.findViewById(R.id.btnLogOut);
+
+        btnLogout.setOnClickListener(view -> {
+            logOut();
+        });
 
 
 
@@ -145,6 +153,13 @@ public class ProfileDetailsFragment  extends Fragment {
             }
         });
         return isCurrentUserResult;
+    }
+
+    private void logOut(){
+
+   profileActivity.logOut();
+
+
     }
 
 

@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.tunc.xlocal.fragments.ProfileDetailsFragment;
 import com.tunc.xlocal.fragments.ProfileEditFragment;
 
@@ -58,6 +60,13 @@ public class Profile extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().remove(profileEditFragment).commit();
             profileEditFragment = null;
         }
+    }
+
+    public void logOut(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent  = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 
