@@ -2,11 +2,11 @@ package com.tunc.xlocal.model;
 
 public class User {
 
-    String name;
-    String username ;
-    String surname;
-    String gender;
-    String profilUrl ;
+    public String name;
+    public String username ;
+    public String surname;
+    public String gender;
+    public String profilUrl ;
     long countOfComment;
     long countOfConfirm;
     long countOfJoin;

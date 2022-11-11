@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -36,9 +37,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tunc.xlocal.databinding.ActivityMapsBinding;
 import com.tunc.xlocal.fragments.PostFragment;
+import com.tunc.xlocal.model.FollowRequest;
 import com.tunc.xlocal.model.Post;
 
 import org.checkerframework.checker.index.qual.PolyUpperBound;
@@ -61,6 +66,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth auth;
     private ArrayList<Post> postArray;
+    private ArrayList<FollowRequest> followRequestArrayList = new ArrayList();
+
+    public MapsActivity(){
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         postArray = new ArrayList<Post>();
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        isThereFollowingRequest();
 
         btnCamera = binding.btnCamera;
         btnProfil = binding.btnProfil;
@@ -88,6 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
 
 
@@ -322,6 +334,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
+    }
+
+
+    public void isThereFollowingRequest(){
+       firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("FollowRequests").addSnapshotListener((value, error) -> {
+
+           if ( value.isEmpty() ){
+
+           }else {
+               for ( DocumentSnapshot documet : value.getDocuments() ){
+
+                   FollowRequest follower = new FollowRequest();
+                   follower.photoUrl = documet.getData().get("profil_photo_url").toString();
+                   follower.userName = documet.get("user_name").toString();
+                   follower.userUuid = documet.get("request_owner_uuid").toString();
+                   followRequestArrayList.add(follower);
+               }
+
+           }
+           if(followRequestArrayList.size()>0){
+               Toast.makeText(this,"Evet büyük",Toast.LENGTH_LONG).show();
+               binding.btnNotification.setVisibility(binding.getRoot().VISIBLE);
+               String countOfFollowRequest = String.valueOf(followRequestArrayList.size());
+               binding.btnNotification.setText(countOfFollowRequest);
+           }
+       });
     }
 
 

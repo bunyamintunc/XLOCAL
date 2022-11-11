@@ -30,7 +30,7 @@
             app:srcCompat="@drawable/indir" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewUserName"
             android:layout_width="141dp"
             android:layout_height="0dp"
             android:layout_marginBottom="10dp"
@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewUserName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -90,7 +90,7 @@
                 android:text="" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textViewLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5sp"
@@ -115,7 +115,7 @@
             tools:ignore="MissingConstraints">
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/btnConfirm"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@drawable/ic_icon_confirm_24"
@@ -147,7 +147,7 @@
             tools:ignore="MissingConstraints">
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btnComment"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
 
@@ -187,7 +187,7 @@
                 android:text="" />
 
             <TextView
-                android:id="@+id/btnJoin"
+                android:id="@+id/textViewJoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5sp"

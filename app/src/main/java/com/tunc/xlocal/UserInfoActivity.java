@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,8 +18,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 import com.tunc.xlocal.databinding.ActivityMapsBinding;
 import com.tunc.xlocal.databinding.ActivityUserInfoBinding;
+import com.tunc.xlocal.model.User;
 
 import java.util.HashMap;
 
@@ -30,10 +34,14 @@ public class UserInfoActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth auth;
     private String userName,profilPhotoUrl;
+    private User user;
+    private ImageView userProfile;
     public UserInfoActivity(){
         firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         getCurrentUser();
+
+
     }
 
     @Override
@@ -46,11 +54,19 @@ public class UserInfoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userUuid = intent.getStringExtra("user_uuid");
 
+        getUserInfo();
+
+
         btnFollow = binding.btnFollow;
         btnFollow.setOnClickListener(view1 -> {
             sendFollowRequest();
 
         });
+
+        isThereRequestFollow();
+
+
+
 
     }
 
@@ -77,5 +93,39 @@ public class UserInfoActivity extends AppCompatActivity {
         btnFollow.setClickable(false);
         btnFollow.setBackgroundColor(ContextCompat.getColor(this,R.color.teal_200));
 
+    }
+
+    /**
+     * kullanicinin bu kişiye istek atıp atmadığına bakiyoruz
+     */
+    public void isThereRequestFollow(){
+        firebaseFirestore.collection("Users").document(userUuid).collection("FollowRequests").addSnapshotListener((value, error) -> {
+            if (value.isEmpty()){
+                Toast.makeText(this,"I am working",Toast.LENGTH_LONG).show();
+            }else{
+                for ( DocumentSnapshot document : value.getDocuments()){
+                    if (document.get("request_owner_uuid").equals(auth.getCurrentUser().getUid())){
+                        hiddenFollowButton();
+                    }
+                }
+            }
+        });
+    }
+
+    public void getUserInfo(){
+
+        firebaseFirestore.collection("Users").document(userUuid).addSnapshotListener((value, error) -> {
+
+
+
+            Picasso.get().load(value.getData().get("profilePhotoDowloadUrl").toString()).into(binding.imageView);
+            binding.textViewUserName.setText(value.getData().get("userName").toString());
+            binding.textComment.setText(value.getData().get("countOfComment").toString());
+            binding.textConfirm.setText(value.getData().get("countOfConfirm").toString());
+            binding.textViewJoin.setText(value.getData().get("countOfJoin").toString());
+            binding.textViewLike.setText(value.getData().get("countOfLike").toString());
+
+
+        });
     }
 }
