@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.circularreveal.CircularRevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/ic_launcher_background"></de.hdodenhof.circleimageview.CircleImageView>
+
+    <TextView
+        android:id="@+id/followRequestUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="3dp"
+        android:text="username"
+        android:textSize="20dp">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/followRequestText"
+        android:layout_width="164dp"
+        android:layout_height="51dp"
+
+
+        android:layout_below="@+id/followRequestUserName"
+
+
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="2dp"
+        android:text="adlı kullanıcı sizi takip etmek istiyor."
+        android:textSize="15dp">
+
+    </TextView>
+
+    <Button
+        android:id="@+id/followRequestAccept"
+        android:layout_width="89dp"
+        android:layout_height="69dp"
+
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/follow_back_btn"
+        android:shadowColor="@color/white"
+        android:text="Onay">
+
+    </Button>
+
+</com.google.android.material.circularreveal.CircularRevealRelativeLayout>

@@ -56,4 +56,7 @@ dependencies {
 
 
     implementation "androidx.recyclerview:recyclerview:1.1.0"
+
+    //resimlerin yuvarlak olması icin
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

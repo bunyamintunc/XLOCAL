@@ -12,8 +12,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +26,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -41,6 +45,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.tunc.xlocal.adapter.CommentAdapter;
+import com.tunc.xlocal.adapter.FollowRequestAdapter;
 import com.tunc.xlocal.databinding.ActivityMapsBinding;
 import com.tunc.xlocal.fragments.PostFragment;
 import com.tunc.xlocal.model.FollowRequest;
@@ -102,7 +108,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-
+         binding.btnNotification.setOnClickListener(view -> {
+               showFollowRequest();
+         });
 
 
 
@@ -337,6 +345,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    // takipci isteiği var mi kontrol ediliyor.
     public void isThereFollowingRequest(){
        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("FollowRequests").addSnapshotListener((value, error) -> {
 
@@ -360,6 +369,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                binding.btnNotification.setText(countOfFollowRequest);
            }
        });
+    }
+
+    public void showFollowRequest(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(binding.getRoot().getContext());
+        View dialogView = LayoutInflater.from(binding.getRoot().getContext()).inflate(R.layout.follow_request_list_alert,null);
+        RecyclerView followRecyler = dialogView.findViewById(R.id.followRequestListRecylerView);
+        followRecyler.setLayoutManager(new LinearLayoutManager(this.getBaseContext()));
+        FollowRequestAdapter followRequestAdapter = new FollowRequestAdapter(followRequestArrayList);
+        followRecyler.setAdapter(followRequestAdapter);
+        builder.setView(dialogView);
+        builder.setCancelable(true);
+        builder.show();
+        //binding.recyclerViewCommentFragment.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        //commentAdapter = new CommentAdapter(commentList);
+        //binding.recyclerViewCommentFragment.setAdapter(commentAdapter);
     }
 
 
