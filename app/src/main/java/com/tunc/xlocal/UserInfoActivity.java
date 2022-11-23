@@ -13,11 +13,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.tunc.xlocal.databinding.ActivityMapsBinding;
@@ -64,6 +66,7 @@ public class UserInfoActivity extends AppCompatActivity {
         });
 
         isThereRequestFollow();
+        isAFollowers();
 
 
 
@@ -95,6 +98,10 @@ public class UserInfoActivity extends AppCompatActivity {
 
     }
 
+    public void deleteFollowButton(){
+
+    }
+
     /**
      * kullanicinin bu kişiye istek atıp atmadığına bakiyoruz
      */
@@ -111,6 +118,16 @@ public class UserInfoActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void isAFollowers(){
+        CollectionReference citiesRef = firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("Followers");
+        Query query = citiesRef.whereEqualTo("user_uuid",userUuid );
+        if(query != null){
+            deleteFollowButton();
+        }
+    }
+
+
 
     public void getUserInfo(){
 

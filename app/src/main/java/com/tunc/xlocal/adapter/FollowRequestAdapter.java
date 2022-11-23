@@ -83,7 +83,7 @@ public class FollowRequestAdapter extends RecyclerView.Adapter<FollowRequestAdap
         followRequestData.put("user_name",request.userName);
         followRequestData.put("profil_photo_url",request.photoUrl);
         firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("Followers").add(followRequestData).addOnSuccessListener(documentReference -> {
-
+           documentReference.update("countOfFollowers",+1);
         });
 
         HashMap<String,Object> followBakcData = new HashMap<>();
@@ -91,6 +91,7 @@ public class FollowRequestAdapter extends RecyclerView.Adapter<FollowRequestAdap
         followBakcData.put("user_name",userName);
         followBakcData.put("profil_photo_url",userProfilUrl);
         firebaseFirestore.collection("Users").document(request.userUuid).collection("Followers").add(followBakcData).addOnSuccessListener(documentReference -> {
+            documentReference.update("countOfFollowers",+1);
             deleteFollowRequest(request.userUuid);
         });
     }

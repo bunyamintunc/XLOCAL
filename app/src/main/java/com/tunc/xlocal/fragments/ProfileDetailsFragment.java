@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+import com.tunc.xlocal.FriendsActivity;
 import com.tunc.xlocal.MainActivity;
 import com.tunc.xlocal.MapsActivity;
 import com.tunc.xlocal.Profile;
@@ -32,15 +34,16 @@ import com.tunc.xlocal.R;
 import com.tunc.xlocal.model.User;
 
 public class ProfileDetailsFragment  extends Fragment {
-    View view;
-    FirebaseAuth auth;
-    ImageView profilePhoto;
-    TextView userName;
-    TextView userEmail;
-    Button goToEditProfileButton;
-    Profile profileActivity;
-    FirebaseFirestore firebaseFirestore;
-    User newUser;
+    private View view;
+    private FirebaseAuth auth;
+    private ImageView profilePhoto;
+    private TextView userName, textFriendList;
+    private TextView userEmail;
+    private Button goToEditProfileButton;
+    private Profile profileActivity;
+    private FirebaseFirestore firebaseFirestore;
+    private User newUser;
+    private LinearLayout friendLinearLayout;
     private Button btnLogout;
     private boolean isCurrentUserResult;
     private Profile profile;
@@ -85,9 +88,16 @@ public class ProfileDetailsFragment  extends Fragment {
         goToEditProfileButton = view.findViewById(R.id.btnGoToEditProfile);
         profilePhoto.setImageResource(R.drawable.indir);
         btnLogout = view.findViewById(R.id.btnLogOut);
+        textFriendList = view.findViewById(R.id.textFriendList);
 
         btnLogout.setOnClickListener(view -> {
             logOut();
+        });
+
+        //arkadaş listesine tiklandiginde listeyi gosteriyoruz.
+        friendLinearLayout = view.findViewById(R.id.friendLinearLayout);
+        friendLinearLayout.setOnClickListener(view -> {
+            showFriendList();
         });
 
 
@@ -107,6 +117,7 @@ public class ProfileDetailsFragment  extends Fragment {
                         String surname = (String) value.getData().get("surname");
                         String gender =  (String) value.getData().get("gender");
                         String profilUrl = (String) value.getData().get("profilePhotoDowloadUrl");
+                        textFriendList.setText(value.getData().get("countOfFollowers").toString());
 
                         System.out.println(name +" "+ surname);
                         newUser = new User(name,username,surname,gender,profilUrl);
@@ -160,6 +171,11 @@ public class ProfileDetailsFragment  extends Fragment {
    profileActivity.logOut();
 
 
+    }
+
+    public void showFriendList(){
+        Intent goToFriendActivity = new Intent(this.getContext(), FriendsActivity.class);
+        startActivity(goToFriendActivity);
     }
 
 
