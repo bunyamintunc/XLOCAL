@@ -19,6 +19,9 @@
         android:theme="@style/Theme.XLOCAL"
         tools:targetApi="31">
         <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".FriendsActivity"
             android:exported="false" />
         <activity

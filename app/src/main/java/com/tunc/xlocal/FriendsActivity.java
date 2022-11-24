@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -43,7 +44,7 @@ public class FriendsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.friendRecylerView.setLayoutManager(new LinearLayoutManager(this));
-        friendsAdapter = new FriendsAdapter(friendList);
+        friendsAdapter = new FriendsAdapter(friendList,this);
         binding.friendRecylerView.setAdapter(friendsAdapter);
 
     }
@@ -63,5 +64,11 @@ public class FriendsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void startChatWithFriends(FollowRequest followRequest){
+        Intent goToChatWithFriend = new Intent( this,ChatActivity.class);
+        goToChatWithFriend.putExtra("user",followRequest);
+        startActivity(goToChatWithFriend);
     }
 }

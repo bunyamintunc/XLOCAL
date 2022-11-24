@@ -1,12 +1,16 @@
 package com.tunc.xlocal.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.tunc.xlocal.ChatActivity;
+import com.tunc.xlocal.FriendsActivity;
 import com.tunc.xlocal.databinding.RecylerRowBinding;
 import com.tunc.xlocal.databinding.RowFrinedsBinding;
 import com.tunc.xlocal.model.Comment;
@@ -17,9 +21,11 @@ import java.util.ArrayList;
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsHolder>{
 
     ArrayList<FollowRequest> friendList;
-
-    public FriendsAdapter(ArrayList<FollowRequest> arrayList){
+    private FriendsActivity friendsActivity;
+    public FriendsAdapter(ArrayList<FollowRequest> arrayList, FriendsActivity friendsActivity){
         this.friendList = arrayList;
+        this.friendsActivity = friendsActivity;
+
     }
 
     @NonNull
@@ -34,6 +40,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsH
 
        holder.rowFrinedsBinding.userName.setText(friendList.get(position).userName);
        Picasso.get().load(friendList.get(position).photoUrl).into(holder.rowFrinedsBinding.userProfilPhoto);
+
+       holder.rowFrinedsBinding.sendMessageButton.setOnClickListener(view -> {
+           friendsActivity.startChatWithFriends(friendList.get(position));
+
+       });
 
 
     }

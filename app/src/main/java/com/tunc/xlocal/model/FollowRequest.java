@@ -1,6 +1,8 @@
 package com.tunc.xlocal.model;
 
-public class FollowRequest {
+import java.io.Serializable;
+
+public class FollowRequest implements Serializable {
 
     public String userUuid;
     public String photoUrl;
