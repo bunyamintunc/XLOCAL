@@ -87,9 +87,13 @@ public class ChatActivity extends AppCompatActivity {
            firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("Chat").document(friend.userUuid).collection("Mesage").add(data).addOnSuccessListener(e -> {
                  firebaseFirestore.collection("Users").document(friend.userUuid).collection("Chat").document(auth.getCurrentUser().getUid()).collection("Mesage").add(data);
            });
+            arrayMessage.clear();
+            chatAdapter.notifyDataSetChanged();
+
         }
         messageText.setText("");
-        chatAdapter.notifyDataSetChanged();
+
+
     }
 
     public void getMessage(){
@@ -103,12 +107,17 @@ public class ChatActivity extends AppCompatActivity {
                     message.messageText = documet.get("message").toString();
                     message.sendDate = documet.get("date").toString();
                     arrayMessage.add(message);
+
+
                 }
+
             }
 
             binding.messageRecylerView.setLayoutManager(new LinearLayoutManager(this));
             chatAdapter = new ChatAdapter(arrayMessage);
             binding.messageRecylerView.setAdapter(chatAdapter);
+
+
         });
     }
 }
