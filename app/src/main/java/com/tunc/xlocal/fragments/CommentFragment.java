@@ -154,6 +154,8 @@ public class CommentFragment extends Fragment {
 
         firebaseFirestore.collection("PostTable").document(postId).collection("Comments").add(commentData);
         commentEditText.setText("");
+        commentList.clear();
+        commentAdapter.notifyDataSetChanged();
     }
 
 
