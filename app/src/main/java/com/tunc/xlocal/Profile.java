@@ -17,6 +17,7 @@ public class Profile extends AppCompatActivity {
     private FragmentTransaction fragmentTransaction;
     private ProfileDetailsFragment profileDetailsFragment;
     private ProfileEditFragment profileEditFragment;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -25,6 +26,7 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         getProfileDetailsFragment();
+        auth = FirebaseAuth.getInstance();
     }
 
 
@@ -63,10 +65,15 @@ public class Profile extends AppCompatActivity {
     }
 
     public void logOut(){
+        removeProfileDetailsFragment();
+        removeProfileEditFragment();
         FirebaseAuth.getInstance().signOut();
         Intent intent  = new Intent(this,MainActivity.class);
+
         startActivity(intent);
+
         finish();
+
     }
 
 

@@ -278,7 +278,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         firebaseFirestore.collection("Post").addSnapshotListener((value, error) -> {
 
-            if (value.isEmpty()){
+            if (value.isEmpty() || value == null){
                 Toast.makeText(this, " There is an error in the getPost Method", Toast.LENGTH_SHORT).show();
             }else{
                 // Eğer post sorgusu boş değilse postları bir post tipindeki array'e atıyoruz.

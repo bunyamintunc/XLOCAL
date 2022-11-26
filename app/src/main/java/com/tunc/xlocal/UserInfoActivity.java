@@ -42,8 +42,6 @@ public class UserInfoActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         getCurrentUser();
-
-
     }
 
     @Override
@@ -73,7 +71,6 @@ public class UserInfoActivity extends AppCompatActivity {
 
     }
 
-
     public void sendFollowRequest(){
 
         HashMap<String,Object> followRequestData = new HashMap<>();
@@ -99,12 +96,10 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     public void deleteFollowButton(){
-
+         btnFollow.setVisibility(View.GONE);
     }
 
-    /**
-     * kullanicinin bu kişiye istek atıp atmadığına bakiyoruz
-     */
+     // kullanicinin bu kişiye istek atıp atmadığına bakiyoruz
     public void isThereRequestFollow(){
         firebaseFirestore.collection("Users").document(userUuid).collection("FollowRequests").addSnapshotListener((value, error) -> {
             if (value.isEmpty()){
@@ -127,13 +122,9 @@ public class UserInfoActivity extends AppCompatActivity {
         }
     }
 
-
-
     public void getUserInfo(){
 
         firebaseFirestore.collection("Users").document(userUuid).addSnapshotListener((value, error) -> {
-
-
 
             Picasso.get().load(value.getData().get("profilePhotoDowloadUrl").toString()).into(binding.imageView);
             binding.textViewUserName.setText(value.getData().get("userName").toString());
@@ -141,8 +132,9 @@ public class UserInfoActivity extends AppCompatActivity {
             binding.textConfirm.setText(value.getData().get("countOfConfirm").toString());
             binding.textViewJoin.setText(value.getData().get("countOfJoin").toString());
             binding.textViewLike.setText(value.getData().get("countOfLike").toString());
-
-
+            binding.textFriendList.setText(value.getData().get("countOfFollowers").toString());
         });
     }
+
+
 }

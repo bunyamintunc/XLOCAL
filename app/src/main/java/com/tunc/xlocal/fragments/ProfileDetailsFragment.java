@@ -171,6 +171,7 @@ public class ProfileDetailsFragment  extends Fragment {
    profileActivity.logOut();
 
 
+
     }
 
     public void showFriendList(){

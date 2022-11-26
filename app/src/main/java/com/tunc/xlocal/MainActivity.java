@@ -29,17 +29,20 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        if(auth.getCurrentUser() != null){
+        if(auth.getCurrentUser() != null  ){
             Intent goToMapsActivity = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(goToMapsActivity);
             finish();
+        }else{
+            //login fragment bağlanması
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            loginFragment = new LoginFragment();
+            fragmentTransaction.add(R.id.framebirinci,loginFragment).commit();
+
         }
 
-        //login fragment bağlanması
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        loginFragment = new LoginFragment();
-        fragmentTransaction.add(R.id.framebirinci,loginFragment).commit();
+
 
     }
 
