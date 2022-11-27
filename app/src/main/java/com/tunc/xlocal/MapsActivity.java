@@ -326,11 +326,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnGallery.setVisibility(binding.getRoot().VISIBLE);
     }
 
-
-    /**
-     *
-     * @param userUuid post'un sahibinin id'si, gidilmek istenen user profil.
-     */
+    //@param userUuid post'un sahibinin id'si, gidilmek istenen user profil.
     public void goUserInfoActivity(String userUuid){
         if (userUuid.equals(auth.getCurrentUser().getUid())){
             goToProfile(binding.getRoot());
@@ -344,8 +340,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-    // takipci isteiği var mi kontrol ediliyor.
+    //takipci isteiği var mi kontrol ediliyor.
     public void isThereFollowingRequest(){
        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("FollowRequests").addSnapshotListener((value, error) -> {
 

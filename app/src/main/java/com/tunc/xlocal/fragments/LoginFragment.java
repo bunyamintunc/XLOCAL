@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.tunc.xlocal.MainActivity;
 import com.tunc.xlocal.MapsActivity;
 import com.tunc.xlocal.R;
@@ -30,6 +31,7 @@ public class LoginFragment extends Fragment {
     EditText editTextEmail;
     EditText editTextPassword;
     MainActivity mainActivity;
+    private FirebaseUser user;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,9 +64,16 @@ public class LoginFragment extends Fragment {
             System.out.println("şifre ve email boş geçilemez");
         else{
               auth.signInWithEmailAndPassword(email,password).addOnSuccessListener(authResult -> {
-                  Intent goToMapsActivity = new Intent(getContext(), MapsActivity.class);
-                  startActivity(goToMapsActivity);
-                  getActivity().finish();
+                  user = FirebaseAuth.getInstance().getCurrentUser();
+                  if(user.isEmailVerified()){
+                      Intent goToMapsActivity = new Intent(getContext(), MapsActivity.class);
+                      startActivity(goToMapsActivity);
+                      getActivity().finish();
+                  }else{
+                      auth.signOut();
+                      Toast.makeText(getContext(),"You must verify your email",Toast.LENGTH_LONG).show();
+                  }
+
               }).addOnFailureListener(e -> Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show());
         }
 

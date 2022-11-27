@@ -59,6 +59,7 @@ public class PostFragment extends Fragment {
     private CommentFragment commentFragment;
     private User userOfPost;
     private LinearLayout linearLayout;
+    private long countOfLike,CountOfJoin;
 
 
 
@@ -224,6 +225,7 @@ public class PostFragment extends Fragment {
             like = like + 1;
             firebaseFirestore.collection("Post").document(post.documentId).update("count_of_like",(long) like);
             textCountLike.setText(String.valueOf(like));
+            increaseUserInteraction("countOfLike",countOfLike);
         }
     }
 
@@ -252,6 +254,7 @@ public class PostFragment extends Fragment {
                              firebaseFirestore.collection("Post").document(post.documentId).update("count_of_like",(long) like);
                              btnLike.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.ic_icon_like_24));
                              textCountLike.setText(String.valueOf(like));
+                              lowerUserInteraction("countOfLike",countOfLike);
                           }
                       }
                   });
@@ -298,6 +301,7 @@ public class PostFragment extends Fragment {
                             firebaseFirestore.collection("Post").document(post.documentId).update("count_of_join",(long) join);
                             btnJoin.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.ic_icon_join_24));
                             textCountJoin.setText(String.valueOf(join));
+
                         }
                     }
                 });
@@ -347,6 +351,7 @@ public class PostFragment extends Fragment {
            if (documentSnapshot.getData().isEmpty()){
 
            }else{
+               countOfLike = (long) documentSnapshot.get("countOfLike");
                postIconUserName.setText(documentSnapshot.get("userName").toString());
                Picasso.get().load(documentSnapshot.get("profilePhotoDowloadUrl").toString()).into(postIconImageView);
 
@@ -360,7 +365,19 @@ public class PostFragment extends Fragment {
            mapsActivity.goUserInfoActivity(post.userUudi);
     }
 
+    public void increaseUserInteraction(String nameOfAction,long countOfValue){
+        int count = (int) countOfValue;
+        count+=1;
+        firebaseFirestore.collection("Users").document(post.userUudi).update(nameOfAction,count);
+    }
+    public void lowerUserInteraction(String nameOfAction, long countOfValue) {
+        int count = (int) countOfValue;
+        if(count<0){
+            count-=1;
+        }
+        firebaseFirestore.collection("Users").document(post.documentId).update(nameOfAction,count);
 
 
+    }
 
 }

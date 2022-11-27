@@ -35,10 +35,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }else{
             //login fragment bağlanması
-            fragmentManager = getSupportFragmentManager();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            loginFragment = new LoginFragment();
-            fragmentTransaction.add(R.id.framebirinci,loginFragment).commit();
+             addLoginFragment();
 
         }
 
@@ -62,7 +59,14 @@ public class MainActivity extends AppCompatActivity {
         //register fragment bağlanması
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        registerFragment = new RegisterFragment();
+        registerFragment = new RegisterFragment(this);
         fragmentTransaction.add(R.id.framebirinci,registerFragment).commit();
+    }
+
+    public void addLoginFragment(){
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        loginFragment = new LoginFragment();
+        fragmentTransaction.add(R.id.framebirinci,loginFragment).commit();
     }
 }

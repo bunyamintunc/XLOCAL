@@ -13,10 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.tunc.xlocal.MainActivity;
 import com.tunc.xlocal.MapsActivity;
 import com.tunc.xlocal.R;
 
@@ -27,6 +32,12 @@ public class RegisterFragment extends Fragment {
     EditText registerPassword;
     Button registerButton;
     FirebaseAuth auth;
+    private ActionCodeSettings actionCodeSettings;
+    private MainActivity mainActivity;
+
+    public RegisterFragment(MainActivity mainActivity){
+        this.mainActivity = mainActivity;
+    }
 
     @Nullable
     @Override
@@ -45,6 +56,20 @@ public class RegisterFragment extends Fragment {
 
       auth = FirebaseAuth.getInstance();
 
+         actionCodeSettings =
+                ActionCodeSettings.newBuilder()
+                        // URL you want to redirect back to. The domain (www.example.com) for this
+                        // URL must be whitelisted in the Firebase Console.
+                        .setUrl("https://www.example.com/finishSignUp?cartId=1234")
+                        // This must be true
+                        .setHandleCodeInApp(true)
+                        .setAndroidPackageName(
+                                "com.tunc.xlocal",
+                                true, /* installIfNotAvailable */
+                                "12"    /* minimumVersion */)
+                        .build();
+
+
       return view;
     }
 
@@ -57,11 +82,27 @@ public class RegisterFragment extends Fragment {
             Toast.makeText(getContext(),"Şifre veya Email boş geçilemz",Toast.LENGTH_LONG).show();
         }else{
             auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(authResult -> {
-                Intent goMapsActivity = new Intent(getContext(), MapsActivity.class);
-                startActivity(goMapsActivity);
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(getContext(),"Email send go your email addres for link",Toast.LENGTH_LONG).show();
+                            mainActivity.removeRegisterFragment();
+                            mainActivity.addLoginFragment();
+
+                        }
+                    }
+                });
             }).addOnFailureListener(e -> {
                 Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
             });
         }
     }
+
+    public void sendLinkToEmail(){
+
+    }
+
+
 }
