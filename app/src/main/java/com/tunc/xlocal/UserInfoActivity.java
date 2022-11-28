@@ -115,11 +115,18 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     public void isAFollowers(){
-        CollectionReference citiesRef = firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("Followers");
-        Query query = citiesRef.whereEqualTo("user_uuid",userUuid );
-        if(query != null){
-            deleteFollowButton();
-        }
+        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("Followers").addSnapshotListener((value, error) -> {
+           if (value.isEmpty()){
+
+           }else{
+               for(DocumentSnapshot document: value.getDocuments()){
+                     if(document.get("user_uuid").equals(auth.getCurrentUser().getUid())){
+                         btnFollow.setVisibility(View.GONE);
+                     }
+               }
+           }
+
+        });
     }
 
     public void getUserInfo(){

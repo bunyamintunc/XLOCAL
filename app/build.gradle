@@ -59,4 +59,7 @@ dependencies {
 
     //resimlerin yuvarlak olması icin
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //google ile kayit olabilmek icin
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
 }

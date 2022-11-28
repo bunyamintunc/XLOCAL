@@ -13,6 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,10 +32,12 @@ import com.tunc.xlocal.R;
 
 public class RegisterFragment extends Fragment {
 
+    private GoogleSignInOptions googleSignInOptions;
+    private GoogleSignInClient googleSignInClient;
     View view;
     EditText registerEmail;
     EditText registerPassword;
-    Button registerButton;
+    Button registerButton, registerWithGoogleButton;
     FirebaseAuth auth;
     private ActionCodeSettings actionCodeSettings;
     private MainActivity mainActivity;
@@ -43,6 +50,15 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
       view = inflater.inflate(R.layout.register_fragment,container,false);
+
+
+      googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+      googleSignInClient = GoogleSignIn.getClient(getContext(),googleSignInOptions);
+
+      registerWithGoogleButton = view.findViewById(R.id.registerWithGoogleButton);
+      registerWithGoogleButton.setOnClickListener(view -> {
+           mainActivity.singInWithGoogle(googleSignInClient);
+      });
 
       registerEmail = view.findViewById(R.id.editTextRegisterEmail);
       registerPassword = view.findViewById(R.id.editTextRegisterPassword);
@@ -98,9 +114,6 @@ public class RegisterFragment extends Fragment {
                 Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
             });
         }
-    }
-
-    public void sendLinkToEmail(){
 
     }
 

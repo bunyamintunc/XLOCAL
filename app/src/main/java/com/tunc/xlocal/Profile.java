@@ -65,6 +65,7 @@ public class Profile extends AppCompatActivity {
     }
 
     public void logOut(){
+        finish();
         removeProfileDetailsFragment();
         removeProfileEditFragment();
         FirebaseAuth.getInstance().signOut();
@@ -72,7 +73,7 @@ public class Profile extends AppCompatActivity {
 
         startActivity(intent);
 
-        finish();
+
 
     }
 

@@ -31,6 +31,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -71,7 +75,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationListener locationListener;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth auth;
+    private GoogleSignInOptions googleSignInOptions;
+    private GoogleSignInClient googleSignInClient;
     private ArrayList<Post> postArray;
+    private GoogleSignInAccount account;
     private ArrayList<FollowRequest> followRequestArrayList = new ArrayList();
 
     public MapsActivity(){
@@ -87,6 +94,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         postArray = new ArrayList<Post>();
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
+
+        account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null){
+            System.out.println("--------------->"+account.getDisplayName());
+        }
+
         isThereFollowingRequest();
 
         btnCamera = binding.btnCamera;
@@ -340,8 +357,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
+
+
     //takipci isteiği var mi kontrol ediliyor.
     public void isThereFollowingRequest(){
+
+
+
+
        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("FollowRequests").addSnapshotListener((value, error) -> {
 
            if ( value.isEmpty() ){
@@ -364,7 +388,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                binding.btnNotification.setText(countOfFollowRequest);
            }
        });
+
     }
+
+
 
     public void showFollowRequest(){
 
