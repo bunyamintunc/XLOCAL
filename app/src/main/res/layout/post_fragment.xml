@@ -55,7 +55,7 @@
         android:src="@drawable/ic_icon_join_24"
         app:layout_constraintBottom_toTopOf="@+id/textJoin"
         app:layout_constraintEnd_toStartOf="@+id/btnComment"
-        app:layout_constraintStart_toEndOf="@+id/btnConfirm"
+        app:layout_constraintStart_toEndOf="@+id/btnComplaint"
         app:layout_constraintTop_toTopOf="@+id/btnComment" />
 
     <TextView
@@ -68,13 +68,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btnComment" />
 
-    <Button
-        android:id="@+id/btnConfirm"
+    <ImageButton
+        android:id="@+id/btnComplaint"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="33dp"
-        android:background="@drawable/ic_icon_confirm_24"
-        android:src="@drawable/ic_icon_confirm_24"
+        android:background="@drawable/complaint"
+        android:src="@drawable/complaint"
+
         app:layout_constraintBottom_toTopOf="@+id/textConfirm"
         app:layout_constraintEnd_toStartOf="@+id/btnJoin"
         app:layout_constraintStart_toEndOf="@+id/btnLike"
@@ -113,7 +114,7 @@
         android:layout_marginBottom="7dp"
         android:text="123"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btnConfirm" />
+        app:layout_constraintStart_toStartOf="@+id/btnComplaint" />
 
     <Button
         android:id="@+id/btnLike"
@@ -125,9 +126,9 @@
         android:background="@drawable/ic_icon_like_24"
         android:src="@drawable/ic_icon_like_24"
         app:layout_constraintBottom_toTopOf="@+id/textLike"
-        app:layout_constraintEnd_toStartOf="@+id/btnConfirm"
+        app:layout_constraintEnd_toStartOf="@+id/btnComplaint"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnConfirm" />
+        app:layout_constraintTop_toTopOf="@+id/btnComplaint" />
 
     <TextView
         android:id="@+id/textLike"

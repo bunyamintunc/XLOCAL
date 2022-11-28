@@ -14,6 +14,7 @@
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/ic_icon_post_24.xml" value="0.1545" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2195" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_chat.xml" value="0.1875" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_complaints.xml" value="0.264" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_friends.xml" value="0.25" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/activity_maps.xml" value="0.264" />
@@ -33,6 +34,7 @@
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/recyler_row.xml" value="0.234375" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/register_fragment.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/row_chat.xml" value="0.10400000000000001" />
+        <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/row_complaint.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/row_follow_request.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/row_frineds.xml" value="0.536" />
         <entry key="..\:/Users/pc/Desktop/AndroidStudioProjects/XLOCAL/app/src/main/res/layout/user_profile_fragment.xml" value="0.24895833333333334" />

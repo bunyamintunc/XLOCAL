@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,10 +22,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -43,6 +47,7 @@ public class PostFragment extends Fragment {
     private View view;
     private Marker marker;
     private Button btnClose, btnLike, btnJoin,btnComment;
+    private ImageButton btnComplaint;
     private PostFragmentBinding binding;
     private ImageView postImageView,postIconImageView;
     private Post post;
@@ -73,7 +78,9 @@ public class PostFragment extends Fragment {
         insertDefaultValues();
         isLike();
         isJoin();
+        isDidComplaint();
         getPost();
+
 
         return  view;
     }
@@ -115,6 +122,19 @@ public class PostFragment extends Fragment {
         confirm = (int) post.countOfConfirm;
         comment = (int) post.countOfComment;
         postDocumentId = post.documentId.toString();
+
+        btnComplaint = binding.btnComplaint;
+        btnComplaint.setOnClickListener(view -> {
+            HashMap<String,Object> complaintData = new HashMap<>();
+            complaintData.put("post_id",post.documentId);
+            complaintData.put("owner_post_id",post.userUudi);
+            complaintData.put("post_url",post.postImageDownloadUrl);
+            complaintData.put("owner_complaint",auth.getCurrentUser().getUid());
+
+            firebaseFirestore.collection("Complaints").add(complaintData).addOnSuccessListener(documentReference -> {
+
+            });
+        });
 
         //post fragment'i maps fragmentten ayiriyoruz.
         btnClose = binding.btnClose;
@@ -378,6 +398,21 @@ public class PostFragment extends Fragment {
         firebaseFirestore.collection("Users").document(post.documentId).update(nameOfAction,count);
 
 
+    }
+
+    public void isDidComplaint(){
+        firebaseFirestore.collection("Complaints").addSnapshotListener((value, error) -> {
+            if (value.isEmpty()){
+
+            }else{
+
+                for (DocumentSnapshot documentSnapshot : value.getDocuments()){
+                    if ( documentSnapshot.get("post_id").equals(post.documentId) && documentSnapshot.get("owner_complaint").equals(auth.getCurrentUser().getUid())){
+                        btnComplaint.setClickable(false);
+                    }
+                }
+            }
+        });
     }
 
 }
