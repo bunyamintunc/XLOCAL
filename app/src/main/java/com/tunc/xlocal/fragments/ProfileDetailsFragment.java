@@ -37,7 +37,7 @@ public class ProfileDetailsFragment  extends Fragment {
     private View view;
     private FirebaseAuth auth;
     private ImageView profilePhoto;
-    private TextView userName, textFriendList;
+    private TextView userName, textFriendList,textCountOfLike,textCountOfJoin,textCountOfComment,textCountOfComplaint;
     private TextView userEmail;
     private Button goToEditProfileButton;
     private Profile profileActivity;
@@ -89,6 +89,10 @@ public class ProfileDetailsFragment  extends Fragment {
         profilePhoto.setImageResource(R.drawable.indir);
         btnLogout = view.findViewById(R.id.btnLogOut);
         textFriendList = view.findViewById(R.id.textFriendList);
+        textCountOfComment = view.findViewById(R.id.textComment);
+        textCountOfJoin = view.findViewById(R.id.textViewJoin);
+        textCountOfLike = view.findViewById(R.id.textViewLike);
+        textCountOfComplaint = view.findViewById(R.id.textViewComplaint);
 
         btnLogout.setOnClickListener(view -> {
             logOut();
@@ -118,14 +122,16 @@ public class ProfileDetailsFragment  extends Fragment {
                         String gender =  (String) value.getData().get("gender");
                         String profilUrl = (String) value.getData().get("profilePhotoDowloadUrl");
                         textFriendList.setText(value.getData().get("countOfFollowers").toString());
+                        textCountOfComment.setText(value.getData().get("countOfComment").toString());
+                        textCountOfJoin.setText(value.getData().get("countOfJoin").toString());
+                        textCountOfLike.setText(value.getData().get("countOfLike").toString());
+                        textCountOfComplaint.setText(value.getData().get("countOfConfirm").toString());
 
                         System.out.println(name +" "+ surname);
                         newUser = new User(name,username,surname,gender,profilUrl);
 
                         if(newUser != null){
                             insertToVeriableForCurrentUser();
-
-
                          }
 
 
