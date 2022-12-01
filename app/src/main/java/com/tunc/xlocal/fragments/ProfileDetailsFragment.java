@@ -123,8 +123,8 @@ public class ProfileDetailsFragment  extends Fragment {
                         newUser = new User(name,username,surname,gender,profilUrl);
 
                         if(newUser != null){
-                            System.out.println("ben calisiyorum");
                             insertToVeriableForCurrentUser();
+
 
                          }
 
