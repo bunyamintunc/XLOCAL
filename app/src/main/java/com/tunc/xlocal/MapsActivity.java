@@ -21,12 +21,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.PointerIcon;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -113,8 +115,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnProfil = binding.btnProfil;
         btnGallery = binding.btnGalery;
 
+
+
         btnGallery.setOnClickListener(view -> {
-            System.out.println("role------>>>>>"+loginUserRole);
             if(loginUserRole.equals("admin")){
                 Intent goToComplaint = new Intent(this,ComplaintsActivity.class);
                 startActivity(goToComplaint);
@@ -125,6 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         });
+
 
 
 
@@ -432,7 +436,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener((value, error) -> {
             if (value.exists()){
                   loginUserRole = value.get("role").toString();
-
+                  if(loginUserRole.equals("admin")){
+                     btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_complaint_icon_24));
+                  }
             }
         });
 

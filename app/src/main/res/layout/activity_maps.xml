@@ -22,9 +22,9 @@
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
-        android:layout_height="101dp"
+        android:layout_height="80sp"
 
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="16sp"
         android:background="#A3FBFAFA"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,20 +32,20 @@
 
         <Button
             android:id="@+id/btnGalery"
-            android:layout_width="50dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_width="40sp"
+            android:layout_height="80sp"
+            android:layout_marginStart="5sp"
+            android:layout_marginEnd="5sp"
             android:layout_weight="1"
             android:color="@android:color/darker_gray"
-            android:text="Galery" />
+             />
 
         <Button
             android:id="@+id/btnCamera"
-            android:layout_width="50dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_width="50sp"
+            android:layout_height="80sp"
+            android:layout_marginStart="5sp"
+            android:layout_marginEnd="5sp"
             android:layout_weight="1"
             android:background="@drawable/ic_icon_camera_24"
             android:color="@android:color/darker_gray"
@@ -53,10 +53,10 @@
 
         <Button
             android:id="@+id/btnProfil"
-            android:layout_width="50dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_width="50sp"
+            android:layout_height="80sp"
+            android:layout_marginStart="5sp"
+            android:layout_marginEnd="5sp"
             android:layout_weight="1"
             android:background="@drawable/ic_icon_profile_24"
             android:color="@android:color/darker_gray"
@@ -69,10 +69,10 @@
 
     <Button
         android:id="@+id/btnNotification"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="25sp"
+        android:layout_height="25sp"
+        android:layout_marginTop="6sp"
+        android:layout_marginEnd="16sp"
         android:visibility="gone"
         android:text="1"
         android:background="@color/teal_200"
