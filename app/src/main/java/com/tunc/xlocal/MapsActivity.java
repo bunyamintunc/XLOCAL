@@ -55,6 +55,7 @@ import com.tunc.xlocal.databinding.ActivityMapsBinding;
 import com.tunc.xlocal.fragments.PostFragment;
 import com.tunc.xlocal.model.FollowRequest;
 import com.tunc.xlocal.model.Post;
+import com.tunc.xlocal.model.User;
 
 import org.checkerframework.checker.index.qual.PolyUpperBound;
 
@@ -80,6 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<Post> postArray;
     private GoogleSignInAccount account;
     private ArrayList<FollowRequest> followRequestArrayList = new ArrayList();
+    private String loginUserRole;
 
     public MapsActivity(){
 
@@ -94,6 +96,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         postArray = new ArrayList<Post>();
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        getLoginUser();
 
 
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
@@ -101,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null){
-            System.out.println("--------------->"+account.getDisplayName());
+            System.out.println("googuser--------------->"+account.getDisplayName());
         }
 
         isThereFollowingRequest();
@@ -109,6 +112,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnCamera = binding.btnCamera;
         btnProfil = binding.btnProfil;
         btnGallery = binding.btnGalery;
+
+        btnGallery.setOnClickListener(view -> {
+            System.out.println("role------>>>>>"+loginUserRole);
+            if(loginUserRole.equals("admin")){
+                Intent goToComplaint = new Intent(this,ComplaintsActivity.class);
+                startActivity(goToComplaint);
+            }else{
+                Intent goToFriendActivity = new Intent(this, FriendsActivity.class);
+                startActivity(goToFriendActivity);
+                //  finish();
+            }
+
+        });
+
 
 
         reqisterLauncher();
@@ -409,6 +426,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //binding.recyclerViewCommentFragment.setAdapter(commentAdapter);
     }
 
+    //giris yapan kullanıcıyı getiriyoruz
+    public void getLoginUser(){
+
+        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener((value, error) -> {
+            if (value.exists()){
+                  loginUserRole = value.get("role").toString();
+
+            }
+        });
+
+
+    }
 
 
 

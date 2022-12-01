@@ -193,7 +193,7 @@ public class ProfileEditFragment extends Fragment {
                         userData.put("countOfJoin",0);
                         userData.put("countOfFollowers",0);
                         userData.put("countOfComment",0);
-
+                        userData.put("role","user");
                         firebaseFirestore.collection("Users").document(userUuid).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {

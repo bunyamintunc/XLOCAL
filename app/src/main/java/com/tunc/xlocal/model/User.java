@@ -7,6 +7,7 @@ public class User {
     public String surname;
     public String gender;
     public String profilUrl ;
+    public String role;
     long countOfComment;
     long countOfConfirm;
     long countOfJoin;

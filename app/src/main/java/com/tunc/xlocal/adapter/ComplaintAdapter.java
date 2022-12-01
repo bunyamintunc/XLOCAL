@@ -36,8 +36,9 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
     @Override
     public void onBindViewHolder(@NonNull ComplaintHolder holder, int position) {
 
-
-
+     Picasso.get().load(complaintList.get(position).postImage).into(holder.rowComplaintBinding.postImage);
+     Picasso.get().load(complaintList.get(position).ownerPostUserImage).into(holder.rowComplaintBinding.userImage);
+     holder.rowComplaintBinding.userName.setText(complaintList.get(position).ownerPostUserName);
 
     }
 

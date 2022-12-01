@@ -82,6 +82,7 @@ public class PostFragment extends Fragment {
         getPost();
 
 
+
         return  view;
     }
 
@@ -130,6 +131,8 @@ public class PostFragment extends Fragment {
             complaintData.put("owner_post_id",post.userUudi);
             complaintData.put("post_url",post.postImageDownloadUrl);
             complaintData.put("owner_complaint",auth.getCurrentUser().getUid());
+            complaintData.put("owner_image",userOfPost.profilUrl);
+            complaintData.put("owner_user_name",userOfPost.username);
 
             firebaseFirestore.collection("Complaints").add(complaintData).addOnSuccessListener(documentReference -> {
 
@@ -374,7 +377,8 @@ public class PostFragment extends Fragment {
                countOfLike = (long) documentSnapshot.get("countOfLike");
                postIconUserName.setText(documentSnapshot.get("userName").toString());
                Picasso.get().load(documentSnapshot.get("profilePhotoDowloadUrl").toString()).into(postIconImageView);
-
+               userOfPost.profilUrl = documentSnapshot.get("profilePhotoDowloadUrl").toString();
+               userOfPost.username = documentSnapshot.get("userName").toString();
            }
         }).addOnFailureListener(e -> {
              Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_LONG).show();
