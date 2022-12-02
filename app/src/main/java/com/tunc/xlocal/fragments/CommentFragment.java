@@ -152,7 +152,9 @@ public class CommentFragment extends Fragment {
         commentData.put("comment",commentEditText.getText().toString());
         commentData.put("profil_photo_url",userDownloadUrl);
 
-        firebaseFirestore.collection("PostTable").document(postId).collection("Comments").add(commentData);
+        firebaseFirestore.collection("PostTable").document(postId).collection("Comments").add(commentData).addOnSuccessListener(documentReference -> {
+            increaseFieldOfUser("countOfComment",commentList.size());
+        });
         commentEditText.setText("");
         commentList.clear();
         commentAdapter.notifyDataSetChanged();
@@ -177,6 +179,11 @@ public class CommentFragment extends Fragment {
                 userDownloadUrl = documentSnapshot.get("profilePhotoDowloadUrl").toString();
             }
         });
+    }
+
+    public void increaseFieldOfUser(String name,int countOf){
+        countOf = countOf+1;
+        firebaseFirestore.collection("Users").document(post.userUudi).update(name,countOf);
     }
 
 

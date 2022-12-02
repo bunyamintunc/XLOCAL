@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,6 +28,7 @@ public class ComplaintsActivity extends AppCompatActivity {
     private Complaint complaint;
 
 
+
     private ActivityComplaintsBinding binding;
     private ComplaintAdapter complaintAdapter;
 
@@ -41,6 +43,7 @@ public class ComplaintsActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         getComplaints();
+
 
 
     }

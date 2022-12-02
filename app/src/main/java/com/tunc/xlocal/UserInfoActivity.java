@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,6 +38,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth auth;
     private String userName,profilPhotoUrl;
+    private TextView textCountOfJoin,textCountOfComment,textCountOfComplaint;
     private User user;
     private ImageView userProfile;
     public UserInfoActivity(){
@@ -50,6 +53,10 @@ public class UserInfoActivity extends AppCompatActivity {
         binding = ActivityUserInfoBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+
+        textCountOfComment = binding.textComment;
+        textCountOfJoin = binding.textViewJoin;
+
 
         Intent intent = getIntent();
         userUuid = intent.getStringExtra("user_uuid");
@@ -86,6 +93,9 @@ public class UserInfoActivity extends AppCompatActivity {
         firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener((value, error) -> {
              userName = value.getData().get("userName").toString();
              profilPhotoUrl = value.getData().get("profilePhotoDowloadUrl").toString();
+             textCountOfJoin.setText(value.getData().get("countOfJoin").toString());
+             textCountOfComment.setText(value.getData().get("countOfComment").toString());
+
         });
     }
 

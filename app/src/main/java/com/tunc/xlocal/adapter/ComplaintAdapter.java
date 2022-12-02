@@ -1,11 +1,17 @@
 package com.tunc.xlocal.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 import com.tunc.xlocal.FriendsActivity;
 import com.tunc.xlocal.databinding.RowChatBinding;
@@ -18,10 +24,15 @@ import java.util.ArrayList;
 
 public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.ComplaintHolder>{
 
-    ArrayList<Complaint> complaintList;
+    private ArrayList<Complaint> complaintList;
     private FriendsActivity friendsActivity;
+    private Button btnDeletePost,btnDeleteUser;
+    private FirebaseAuth auth;
+    private FirebaseFirestore firestore;
     public ComplaintAdapter(ArrayList<Complaint> arrayList){
         this.complaintList = arrayList;
+        auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
 
     }
@@ -39,6 +50,16 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
      Picasso.get().load(complaintList.get(position).postImage).into(holder.rowComplaintBinding.postImage);
      Picasso.get().load(complaintList.get(position).ownerPostUserImage).into(holder.rowComplaintBinding.userImage);
      holder.rowComplaintBinding.userName.setText(complaintList.get(position).ownerPostUserName);
+
+     //postu siliyoruz.
+     holder.rowComplaintBinding.btnDeletePost.setOnClickListener(view -> {
+           firestore.collection("Post").document(complaintList.get(position).postId).delete().addOnSuccessListener(unused -> {
+                notifyDataSetChanged();
+           });
+     });
+
+
+
 
     }
 

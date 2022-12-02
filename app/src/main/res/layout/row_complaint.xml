@@ -16,7 +16,7 @@
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="80dp"
-           android:background="@color/color4"
+           android:background="@color/color1"
            android:orientation="horizontal">
 
            <de.hdodenhof.circleimageview.CircleImageView
@@ -53,11 +53,20 @@
            android:layout_width="match_parent"
            android:layout_height="48dp">
            <Button
+               android:id="@+id/btnDeletePost"
                android:layout_width="100dp"
                android:background="@color/color5"
                android:layout_height="50dp">
-
            </Button>
+          <Button
+              android:id="@+id/btnDeleteUser"
+              android:layout_width="100sp"
+              android:layout_height="50sp"
+              android:layout_marginLeft="10sp">
+
+          </Button>
+
+
        </LinearLayout>
 
    </LinearLayout>

@@ -135,6 +135,7 @@ public class PostFragment extends Fragment {
             complaintData.put("owner_user_name",userOfPost.username);
 
             firebaseFirestore.collection("Complaints").add(complaintData).addOnSuccessListener(documentReference -> {
+                increaseUserInteraction("countOfConfirm",++confirm);
 
             });
         });
@@ -169,6 +170,8 @@ public class PostFragment extends Fragment {
          linearLayout.setOnClickListener(view -> {
                 gotToProfile();
          });
+
+
 
 
 
@@ -295,6 +298,7 @@ public class PostFragment extends Fragment {
             join = join + 1;
             firebaseFirestore.collection("Post").document(post.documentId).update("count_of_join",(long) join);
             textCountJoin.setText(String.valueOf(join));
+            increaseUserInteraction("countOfJoin",join);
         }
     }
 
@@ -324,6 +328,7 @@ public class PostFragment extends Fragment {
                             firebaseFirestore.collection("Post").document(post.documentId).update("count_of_join",(long) join);
                             btnJoin.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.ic_icon_join_24));
                             textCountJoin.setText(String.valueOf(join));
+                            lowerUserInteraction("countOfJoin",join);
 
                         }
                     }
