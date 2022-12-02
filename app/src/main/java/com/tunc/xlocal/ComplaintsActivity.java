@@ -65,10 +65,15 @@ public class ComplaintsActivity extends AppCompatActivity {
                 }
 
                 binding.complaintRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                complaintAdapter = new ComplaintAdapter(complaints);
+                complaintAdapter = new ComplaintAdapter(complaints,this);
                 binding.complaintRecyclerView.setAdapter(complaintAdapter);
 
             }
         });
+    }
+
+    public void changedData(){
+        complaints.clear();
+        complaintAdapter.notifyDataSetChanged();
     }
 }

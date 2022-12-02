@@ -6,13 +6,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
+import com.tunc.xlocal.ComplaintsActivity;
 import com.tunc.xlocal.FriendsActivity;
 import com.tunc.xlocal.databinding.RowChatBinding;
 import com.tunc.xlocal.databinding.RowComplaintBinding;
@@ -29,10 +36,14 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
     private Button btnDeletePost,btnDeleteUser;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
-    public ComplaintAdapter(ArrayList<Complaint> arrayList){
+    private ComplaintsActivity complaintsActivity;
+    private FirebaseUser firebaseUser;
+    public ComplaintAdapter(ArrayList<Complaint> arrayList, ComplaintsActivity complaintsActivity){
         this.complaintList = arrayList;
+        this.complaintsActivity = complaintsActivity;
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+
 
 
     }
@@ -54,8 +65,24 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
      //postu siliyoruz.
      holder.rowComplaintBinding.btnDeletePost.setOnClickListener(view -> {
            firestore.collection("Post").document(complaintList.get(position).postId).delete().addOnSuccessListener(unused -> {
-                notifyDataSetChanged();
+
+               firestore.collection("Complaints").addSnapshotListener((value, error) -> {
+                     if (value.isEmpty()){
+                     }else{
+                         for (DocumentSnapshot document : value.getDocuments()){
+                                if (document.get("post_id").equals(complaintList.get(position).postId)){
+                                    firestore.collection("Complaints").document(document.getId()).delete();
+                                    complaintsActivity.changedData();
+                                }
+                         }
+                     }
+                });
            });
+     });
+
+
+     holder.rowComplaintBinding.btnDeleteUser.setOnClickListener(view -> {
+          
      });
 
 

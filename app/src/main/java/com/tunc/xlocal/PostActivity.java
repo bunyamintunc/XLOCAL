@@ -189,9 +189,12 @@ public class PostActivity extends AppCompatActivity {
          firebaseFirestore.collection("PostTable").document(documentId).collection("Confirms").add(data);
          firebaseFirestore.collection("PostTable").document(documentId).collection("Comments").add(data);
 
+     }
 
-
-
+     public void goToMapActivity(){
+        Intent gotToMapIntent = new Intent(this,MapsActivity.class);
+        startActivity(gotToMapIntent);
+        finish();
      }
 
 

@@ -269,7 +269,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void goToProfile(View view){
         Intent goToProfileDetailsActivity = new Intent(this,Profile.class);
         startActivity(goToProfileDetailsActivity);
-        finish();
+
 
     }
 
@@ -438,6 +438,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                   loginUserRole = value.get("role").toString();
                   if(loginUserRole.equals("admin")){
                      btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_complaint_icon_24));
+                  }else{
+                      btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_send_message_24));
                   }
             }
         });
