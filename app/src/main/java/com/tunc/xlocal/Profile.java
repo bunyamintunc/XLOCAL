@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.tunc.xlocal.fragments.ProfileDetailsFragment;
@@ -32,13 +33,16 @@ public class Profile extends AppCompatActivity {
 
 
     public  void getProfileDetailsFragment(){
+
         if(profileEditFragment != null){
             removeProfileEditFragment();
         }
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        profileDetailsFragment = new ProfileDetailsFragment(this);
-        fragmentTransaction.add(R.id.profileActivity,profileDetailsFragment).commit();
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            profileDetailsFragment = new ProfileDetailsFragment(this);
+            fragmentTransaction.add(R.id.profileActivity,profileDetailsFragment).commit();
+
+
     }
 
     public void getProfileEditFragment(){
@@ -73,8 +77,12 @@ public class Profile extends AppCompatActivity {
 
         startActivity(intent);
 
+    }
 
-
+    public void goToMapsActivity(){
+        Intent goToMaps = new Intent(this,MapsActivity.class);
+        startActivity(goToMaps);
+        finish();
     }
 
 

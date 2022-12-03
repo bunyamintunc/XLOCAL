@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.TransitionRes;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -57,6 +59,8 @@ public class ProfileDetailsFragment  extends Fragment {
 
 
         isCurrentUser();
+        isThereAUser();
+
     }
 
     @Nullable
@@ -64,7 +68,7 @@ public class ProfileDetailsFragment  extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.profile_details_fragment,container,false);
 
-             insertToDetails();
+        insertToDetails();
 
 
 
@@ -183,6 +187,22 @@ public class ProfileDetailsFragment  extends Fragment {
     public void showFriendList(){
         Intent goToFriendActivity = new Intent(this.getContext(), FriendsActivity.class);
         startActivity(goToFriendActivity);
+    }
+
+    public void isThereAUser(){
+        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+
+                    }else{
+                        profileActivity.getProfileEditFragment();
+                    }
+                }
+            }
+        });
     }
 
 

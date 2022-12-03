@@ -44,6 +44,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -99,7 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         getLoginUser();
-
+        isThereAUser();
 
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
@@ -149,6 +153,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          binding.btnNotification.setOnClickListener(view -> {
                showFollowRequest();
          });
+
 
 
 
@@ -246,7 +251,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }else{
                 //izin isteği
                 permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-
             }
         }else{
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
@@ -269,16 +273,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void goToProfile(View view){
         Intent goToProfileDetailsActivity = new Intent(this,Profile.class);
         startActivity(goToProfileDetailsActivity);
-
-
     }
 
     public void openCamera(View view){
-
         Intent goToPostActivity = new Intent(this,PostActivity.class);
         goToPostActivity.putExtra("konum",konum);
         startActivity(goToPostActivity);
-
     }
 
     private void reqisterLauncher(){
@@ -294,16 +294,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         if(lastLocation != null){
                             LatLng lastUserLocation = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
-                            Marker deneme = mMap.addMarker(new MarkerOptions().title("deneme").position(lastUserLocation));
-                            deneme.showInfoWindow();
+
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastUserLocation,16));
-
                         }
-
-
-
                     }
-
                 }else{
                     //izin red edildi
                     Toast.makeText(MapsActivity.this, "Permission needed",Toast.LENGTH_LONG).show();
@@ -339,7 +333,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-
     }
 
     //postFragment'i maps fragmentten kaldiriyoruz.
@@ -378,14 +371,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-
-
     //takipci isteiği var mi kontrol ediliyor.
     public void isThereFollowingRequest(){
-
-
-
 
        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("FollowRequests").addSnapshotListener((value, error) -> {
 
@@ -411,8 +398,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        });
 
     }
-
-
 
     public void showFollowRequest(){
 
@@ -447,13 +432,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-
-
-
-
-
-
-
+    public void isThereAUser(){
+         firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
+             if (task.isSuccessful()){
+                 DocumentSnapshot document = task.getResult();
+                 if(document.exists()){
+                       System.out.println("User var");
+                 }else{
+                    Intent goToProfileActivity = new Intent(getBaseContext(),Profile.class);
+                    startActivity(goToProfileActivity);
+                    finish();
+                 }
+             }
+         });
+    }
 
 }

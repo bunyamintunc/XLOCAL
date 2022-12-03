@@ -49,6 +49,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder>{
         }else{
             holder.rowChatBinding.textMessage.setText(messageList.get(position).messageText);
             holder.rowChatBinding.date.setText(messageList.get(position).sendDate);
+            holder.rowChatBinding.messageLayout.setBackgroundColor(Color.parseColor("#a8ccc2"));
         }
 
     }

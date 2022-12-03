@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.tunc.xlocal.MapsActivity;
 import com.tunc.xlocal.Profile;
 import com.tunc.xlocal.R;
 
@@ -164,51 +166,64 @@ public class ProfileEditFragment extends Fragment {
 
         String profilImageName = "images/profilPhoto/"+userUuid+".jpg";
 
-        storageReference.child(profilImageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                StorageReference newReferance = firebaseStorage.getReference(profilImageName);
-                newReferance.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        String profilePhotoDownloadUrl = uri.toString();
-                        String Name = firstName.getText().toString();
-                        String SurName = surname.getText().toString();
-                        String Username = userName.getText().toString();
-                        String Gender = gender.getText().toString();
+        if(imageData != null){
+            storageReference.child(profilImageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    StorageReference newReferance = firebaseStorage.getReference(profilImageName);
+                    newReferance.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String profilePhotoDownloadUrl = uri.toString();
+                            String Name = firstName.getText().toString();
+                            String SurName = surname.getText().toString();
+                            String Username = userName.getText().toString();
+                            String Gender = gender.getText().toString();
 
 
-                        String userEmail = user.getEmail();
 
 
-                        HashMap<String,Object> userData = new HashMap<>();
-                        userData.put("name",Name);
-                        userData.put("profilePhotoDowloadUrl",profilePhotoDownloadUrl);
-                        userData.put("surname",SurName);
-                        userData.put("userName",Username);
-                        userData.put("gender",Gender);
-                        userData.put("email",userEmail);
-                        userData.put("countOfLike",0);
-                        userData.put("countOfConfirm",0);
-                        userData.put("countOfJoin",0);
-                        userData.put("countOfFollowers",0);
-                        userData.put("countOfComment",0);
-                        userData.put("role","user");
-                        firebaseFirestore.collection("Users").document(userUuid).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                  profileActivity.getProfileDetailsFragment();
+                            if(profilePhotoDownloadUrl.equals("") || Name.equals("") || SurName.equals("") || Username.equals("") || Gender.equals("")){
+                                Toast.makeText(getContext(),"Field cannot be empty",Toast.LENGTH_LONG).show();
+                            }else{
+
+                                String userEmail = user.getEmail();
+
+                                HashMap<String,Object> userData = new HashMap<>();
+                                userData.put("name",Name);
+                                userData.put("profilePhotoDowloadUrl",profilePhotoDownloadUrl);
+                                userData.put("surname",SurName);
+                                userData.put("userName",Username);
+                                userData.put("gender",Gender);
+                                userData.put("email",userEmail);
+                                userData.put("countOfLike",0);
+                                userData.put("countOfConfirm",0);
+                                userData.put("countOfJoin",0);
+                                userData.put("countOfFollowers",0);
+                                userData.put("countOfComment",0);
+                                userData.put("role","user");
+
+                                firebaseFirestore.collection("Users").document(userUuid).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        profileActivity.goToMapsActivity();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                });
-            }
-        });
+
+                        }
+                    });
+                }
+            });
+        }else{
+            Toast.makeText(getContext(),"İmage cannot be empty",Toast.LENGTH_LONG).show();
+        }
+
 
 
 
