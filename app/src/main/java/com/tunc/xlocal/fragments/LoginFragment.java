@@ -43,8 +43,8 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        view = inflater.inflate(R.layout.login_fragment,container,false);
 
-        loginButton = view.findViewById(R.id.loginButton);
-        registerButton = view.findViewById(R.id.button);
+        loginButton = view.findViewById(R.id.loginBtn);
+        registerButton = view.findViewById(R.id.registerBtn);
 
         loginButton.setOnClickListener(view -> {
            login();
@@ -57,8 +57,8 @@ public class LoginFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
 
-        editTextEmail = view.findViewById(R.id.editTextEmail);
-        editTextPassword = view.findViewById(R.id.editTextPassword);
+        editTextEmail = view.findViewById(R.id.loyout2);
+        editTextPassword = view.findViewById(R.id.inputPassword);
 
 
 

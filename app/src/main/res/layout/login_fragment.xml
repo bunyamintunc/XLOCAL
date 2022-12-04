@@ -6,55 +6,113 @@
     android:layout_height="match_parent">
 
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="125dp"
-        android:layout_height="47dp"
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/materialButtonToggleGroup"
+        android:layout_width="292dp"
 
-        android:layout_marginTop="24dp"
-        android:text="Login"
+        android:layout_height="0dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginBottom="99dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialButtonToggleGroup2"
+        app:layout_constraintStart_toStartOf="@+id/inputLayoutPassword"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPassword">
+
+        <com.google.android.material.button.MaterialButton
+
+            android:id="@+id/loginBtn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="274dp"
+            android:layout_height="73sp"
+            android:hint="Login"
+            android:textSize="20sp"
+            app:icon="@drawable/ic_login_icon_24"
+
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="301dp">
+
+        </com.google.android.material.button.MaterialButton>
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout1"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="137dp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintBottom_toTopOf="@+id/inputLayoutPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/ic_email_icon_24">
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="298dp"
-        android:layout_height="53dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loyout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32sp"
+            android:layout_marginBottom="2sp"
+            android:hint="email"
+            app:startIconDrawable="@drawable/ic_icon_join_24" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:textAlignment="center"
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/materialButtonToggleGroup2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="59dp"
+        android:layout_marginEnd="59dp"
+        android:layout_marginBottom="47dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/materialButtonToggleGroup">
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="300dp"
-        android:layout_height="54dp"
+        <com.google.android.material.button.MaterialButton
 
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="textPassword"
-        android:textAlignment="center"
+            android:id="@+id/registerBtn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="273dp"
+            android:layout_height="73dp"
+            android:hint="Register"
+            android:textSize="20sp"
+            app:icon="@drawable/ic_register_icon_24"
+
+            tools:layout_editor_absoluteX="73dp"
+            tools:layout_editor_absoluteY="376dp">
+
+
+        </com.google.android.material.button.MaterialButton>
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginBottom="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialButtonToggleGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/layout1"
+        app:startIconDrawable="@drawable/ic_password_icon_24">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="125dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="32dp"
-        android:text="Register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32sp"
+            android:layout_marginEnd="32sp"
+            android:layout_marginBottom="2sp"
+            android:hint="password" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     "
     android:text="register"
