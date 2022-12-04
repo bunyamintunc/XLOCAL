@@ -55,14 +55,14 @@ public class RegisterFragment extends Fragment {
       googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
       googleSignInClient = GoogleSignIn.getClient(getContext(),googleSignInOptions);
 
-      registerWithGoogleButton = view.findViewById(R.id.registerWithGoogleButton);
+      registerWithGoogleButton = view.findViewById(R.id.registerWithGoogleBtn);
       registerWithGoogleButton.setOnClickListener(view -> {
            mainActivity.singInWithGoogle(googleSignInClient);
       });
 
-      registerEmail = view.findViewById(R.id.editTextRegisterEmail);
-      registerPassword = view.findViewById(R.id.editTextRegisterPassword);
-      registerButton = view.findViewById(R.id.btnRegisterKayit);
+      registerEmail = view.findViewById(R.id.inputEmail);
+      registerPassword = view.findViewById(R.id.inputPassword);
+      registerButton = view.findViewById(R.id.registerButton);
       registerButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {

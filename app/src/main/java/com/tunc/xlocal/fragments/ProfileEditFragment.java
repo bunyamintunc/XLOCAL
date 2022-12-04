@@ -78,7 +78,7 @@ public class ProfileEditFragment extends Fragment {
 
         registerLauncher();
 
-        profilPhoto.setImageResource(R.drawable.indir);
+
         profilPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,16 +148,16 @@ public class ProfileEditFragment extends Fragment {
     }
 
     public void insertValue(){
-        firstName = view.findViewById(R.id.editTextEditProfileUserName);
-        surname = view.findViewById(R.id.editTextEditProfileSurname);
-        userName = view.findViewById(R.id.editTextEditProfileNickName);
-        gender = view.findViewById(R.id.editTextEditProfileGender);
-        saveChaneButton = view.findViewById(R.id.saveChaneButton);
+        firstName = view.findViewById(R.id.inputName);
+        surname = view.findViewById(R.id.inputSurname);
+        userName = view.findViewById(R.id.inputUsername);
+        gender = view.findViewById(R.id.inputGender);
+        saveChaneButton = view.findViewById(R.id.buttonSave);
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
-        profilPhoto = view.findViewById(R.id.profilPhoto);
+        profilPhoto = view.findViewById(R.id.userProfilPhoto);
     }
 
     public  void saveUserInfo(){

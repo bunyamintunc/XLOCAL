@@ -5,132 +5,122 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="380dp"
-        android:layout_height="239dp"
-
-        android:layout_marginTop="40dp"
-        android:outlineAmbientShadowColor="#00BCD4"
-        android:outlineSpotShadowColor="#FF9800"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userProfilPhoto"
+        android:layout_width="140sp"
+        android:layout_height="140sp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/word"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/profilPhoto"
-            android:layout_width="149dp"
-            android:layout_height="144dp"
-            android:src="@drawable/indir"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    </de.hdodenhof.circleimageview.CircleImageView>
 
-        <TextView
-            android:id="@+id/textViewUserEmail"
-            android:layout_width="296dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="1dp"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textSize="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewUserName" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputNameLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-        <TextView
-            android:id="@+id/textViewUserName"
-            android:layout_width="221dp"
-            android:layout_height="36dp"
-
-            android:layout_marginTop="1dp"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profilPhoto" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="378dp"
-        android:layout_height="420dp"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        tools:layout_editor_absoluteX="20dp">
-
-        <EditText
-            android:id="@+id/editTextEditProfileUserName"
-            android:layout_width="330dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="23dp"
-            android:ems="10"
-            android:hint="name"
-            android:inputType="textPersonName"
-            android:textAlignment="center"
-            android:textSize="25dp"
-            app:layout_constraintBottom_toTopOf="@+id/editTextEditProfileSurname"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/editTextEditProfileSurname"
-            android:layout_width="330dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="26dp"
-            android:ems="10"
-            android:hint="surname"
-            android:inputType="textPersonName"
-
-            android:textAlignment="center"
-            android:textSize="25dp"
-            app:layout_constraintBottom_toTopOf="@+id/editTextEditProfileNickName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextEditProfileUserName" />
-
-        <EditText
-            android:id="@+id/editTextEditProfileNickName"
-            android:layout_width="330dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="23dp"
-            android:ems="10"
-            android:hint="user name"
-            android:inputType="textPersonName"
-            android:textAlignment="center"
-            android:textSize="25dp"
-            app:layout_constraintBottom_toTopOf="@+id/editTextEditProfileGender"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextEditProfileSurname" />
-
-        <EditText
-            android:id="@+id/editTextEditProfileGender"
-            android:layout_width="330dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="54dp"
-            android:ems="10"
-            android:hint="gender"
-            android:inputType="textPersonName"
-            android:textAlignment="center"
-            android:textSize="25dp"
-            app:layout_constraintBottom_toTopOf="@+id/saveChaneButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextEditProfileNickName" />
-
-        <Button
-            android:id="@+id/saveChaneButton"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="34dp"
-            android:text="Save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextEditProfileGender" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginBottom="8sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputSurnameLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="surname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputNameLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputUsernameLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputSurnameLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputGenderLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="gender"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputUsernameLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/materialButtonToggleGroup3"
+        android:layout_width="345sp"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputGenderLayout">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSave"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Save"
+            app:icon="@drawable/ic_icon_join_24">
+
+        </com.google.android.material.button.MaterialButton>
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="select pic"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userProfilPhoto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
