@@ -6,38 +6,54 @@
     android:layout_marginTop="5sp"
     android:layout_height="wrap_content">
 
-
-    <ImageView
-        android:id="@+id/commentRowImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="5dp"
-
-
-        tools:srcCompat="@tools:sample/avatars" />
-
-
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_marginBottom="1sp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8sp"
+        android:layout_marginEnd="8sp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5sp">
+            <de.hdodenhof.circleimageview.CircleImageView
 
-        <TextView
-            android:id="@+id/commentRowUserName"
-            android:layout_width="120dp"
-            android:layout_height="25dp"
-            android:textSize="20sp"
-            android:layout_marginStart="5sp"
+                android:id="@+id/cardCommentUserProfile"
+                android:layout_width="65sp"
+                android:layout_height="65sp">
 
-            android:hint="user name" />
+            </de.hdodenhof.circleimageview.CircleImageView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="5sp">
+            <TextView
+                android:id="@+id/cardCommentUserName"
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2sp"
+                android:layout_marginStart="10sp"
+                android:text="Başlık"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                />
+            <TextView
+                android:id="@+id/cardCommentDesciription"
 
-        <TextView
-            android:id="@+id/commentRowComment"
-            android:layout_width="280sp"
-            android:layout_height="54sp"
-            android:layout_marginStart="5sp"
-            android:textAlignment="center"
-            android:hint="deneme için acilmis yorum satiri" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2sp"
+                android:layout_marginStart="10sp"
+                android:text="Başlık"
+                android:textAppearance="?attr/textAppearanceBody2"
+                />
 
-    </LinearLayout>
+        </LinearLayout>
+
+
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

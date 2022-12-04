@@ -58,12 +58,12 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
     @Override
     public void onBindViewHolder(@NonNull ComplaintHolder holder, int position) {
 
-     Picasso.get().load(complaintList.get(position).postImage).into(holder.rowComplaintBinding.postImage);
-     Picasso.get().load(complaintList.get(position).ownerPostUserImage).into(holder.rowComplaintBinding.userImage);
-     holder.rowComplaintBinding.userName.setText(complaintList.get(position).ownerPostUserName);
+     Picasso.get().load(complaintList.get(position).postImage).into(holder.rowComplaintBinding.cardUserPostPic);
+     Picasso.get().load(complaintList.get(position).ownerPostUserImage).into(holder.rowComplaintBinding.cardUserProfile);
+     holder.rowComplaintBinding.cardUserName.setText(complaintList.get(position).ownerPostUserName);
 
      //postu siliyoruz.
-     holder.rowComplaintBinding.btnDeletePost.setOnClickListener(view -> {
+     holder.rowComplaintBinding.cardDeletePostButton.setOnClickListener(view -> {
            firestore.collection("Post").document(complaintList.get(position).postId).delete().addOnSuccessListener(unused -> {
 
                firestore.collection("Complaints").addSnapshotListener((value, error) -> {
@@ -81,7 +81,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.Comp
      });
 
 
-     holder.rowComplaintBinding.btnDeleteUser.setOnClickListener(view -> {
+     holder.rowComplaintBinding.cardDeleteUserButton.setOnClickListener(view -> {
           
      });
 

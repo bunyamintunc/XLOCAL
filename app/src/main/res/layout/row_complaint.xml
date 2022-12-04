@@ -2,73 +2,102 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@color/color6"
-    android:layout_marginTop="3dp"
+    android:layout_marginTop="1sp"
     android:layout_height="match_parent">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_marginStart="10dp"
-       android:layout_marginEnd="10dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_marginBottom="1sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8sp"
+        android:layout_marginEnd="8sp">
 
-       android:background="@drawable/custom_item"
-       android:layout_height="450dp"
-       android:orientation="vertical">
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="80dp"
-           android:background="@color/color1"
-           android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-           <de.hdodenhof.circleimageview.CircleImageView
-               android:id="@+id/userImage"
-               android:layout_marginStart="5dp"
-               android:layout_width="80dp"
-               android:layout_height="80dp"></de.hdodenhof.circleimageview.CircleImageView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5sp">
+                <de.hdodenhof.circleimageview.CircleImageView
 
-           <TextView
-               android:id="@+id/userName"
-               android:layout_width="wrap_content"
-               android:layout_height="50dp"
-               android:layout_marginStart="5dp"
-               android:layout_marginTop="15dp"
-               android:layout_marginEnd="5dp"
-               android:text="merhaba"
-               android:textSize="30dp">
+                    android:id="@+id/cardUserProfile"
+                    android:layout_width="65sp"
+                    android:layout_height="65sp">
 
-           </TextView>
-
-
-       </LinearLayout>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-           <ImageView
-               android:id="@+id/postImage"
-               android:layout_width="match_parent"
-               android:layout_height="320dp">
-
-           </ImageView>
-       </LinearLayout>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="48dp">
-           <Button
-               android:id="@+id/btnDeletePost"
-               android:layout_width="100dp"
-               android:background="@color/color5"
-               android:layout_height="50dp">
-           </Button>
-          <Button
-              android:id="@+id/btnDeleteUser"
-              android:layout_width="100sp"
-              android:layout_height="50sp"
-              android:layout_marginLeft="10sp">
-
-          </Button>
+                </de.hdodenhof.circleimageview.CircleImageView>
+                <TextView
+                    android:id="@+id/cardUserName"
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginStart="10sp"
+                    android:text="Başlık"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    />
+            </LinearLayout>
 
 
-       </LinearLayout>
+            <!-- Media -->
+            <ImageView
+                android:id="@+id/cardUserPostPic"
+                android:layout_width="match_parent"
+                android:layout_height="194dp"
+                android:src="@drawable/word"
+                android:scaleType="centerCrop"
+                android:contentDescription="User post"
+                />
 
-   </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Title, secondary and supporting text -->
+
+
+                <TextView
+                    android:id="@+id/cardUserPostDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="?android:attr/textColorSecondary"
+                    />
+
+            </LinearLayout>
+
+            <!-- Buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cardDeleteUserButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="DELETE USER"
+                    style="?attr/borderlessButtonStyle"
+                    />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cardDeletePostButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delete Post"
+                    style="?attr/borderlessButtonStyle"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

@@ -65,8 +65,8 @@ public class CommentFragment extends Fragment {
         this.postId = postId;
         this.postFragment = postFragment;
         this.post = post;
-
-
+        auth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
     }
 
 
@@ -79,8 +79,7 @@ public class CommentFragment extends Fragment {
         view = binding.getRoot();
 
         commentList = new ArrayList<>();
-        auth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
+
 
 
         getUserDetails();
@@ -123,12 +122,17 @@ public class CommentFragment extends Fragment {
             }else{
 
                 for(DocumentSnapshot document : value.getDocuments()){
-                    Comment comment = new Comment();
-                   comment.userName =  document.get("user_name").toString();
-                   comment.comment = document.get("comment").toString();
-                   comment.imageUrl =  document.get("profil_photo_url").toString();
-                   comment.userUuid =  document.get("user_uuid").toString();
-                   commentList.add(comment);
+                   if (document.exists()){
+                       Comment comment = new Comment();
+                       comment.userName =  document.get("user_name").toString();
+                       comment.comment = document.get("comment").toString();
+                       comment.imageUrl =  document.get("profil_photo_url").toString();
+                       comment.userUuid =  document.get("user_uuid").toString();
+                       commentList.add(comment);
+                   }else{
+
+                   }
+
                 }
 
 
