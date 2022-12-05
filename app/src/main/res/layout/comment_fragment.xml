@@ -1,77 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
 
 
-    android:background="@color/white">
+    android:background="@color/color2">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCommentFragment"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="264dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/commentTextPost" />
+        android:layout_marginStart="5sp"
+        android:layout_marginEnd="5sp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/commentEditText"
-        android:layout_width="0dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="9dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toStartOf="@+id/btnComment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewCommentFragment" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCommentClose"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="35sp"
+            android:layout_height="40sp"
 
-    <Button
-        android:id="@+id/btnComment"
-        android:layout_width="67dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="3dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/commentEditText"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewCommentFragment" />
 
-    <ImageView
-        android:id="@+id/commentImageView"
-        android:layout_width="297dp"
-        android:layout_height="186dp"
-        android:layout_marginTop="56dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+            app:icon="@drawable/ic_icon_close_24"
+            app:iconGravity="textStart">
 
-    <TextView
-        android:id="@+id/commentTextPost"
-        android:layout_width="385dp"
-        android:layout_height="85dp"
-        android:layout_marginTop="20dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/commentImageView" />
+        </com.google.android.material.button.MaterialButton>
 
-    <Button
-        android:id="@+id/btnCommentClose"
-        android:layout_width="0dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="13dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/commentImageView"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/commentImageView"
+            android:layout_width="match_parent"
+            android:layout_height="186dp"
+            android:layout_marginTop="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/commentTextPost"
+            android:layout_width="385sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="5sp"
+            android:layout_marginBottom="5sp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commentImageView" />
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCommentFragment"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commentTextPost" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputCommentLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+            android:layout_width="300sp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="21sp"
+            android:hint="What do you think?"
+            app:boxStrokeColor="@color/color7">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputCommentTextEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:layout_marginStart="8sp"
+
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnComment"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="65sp"
+            android:shadowColor="@color/color2"
+            android:textColor="@color/color7"
+            app:icon="@drawable/ic_icon_comment_24"
+            app:iconGravity="textEnd"
+            app:strokeColor="@color/color7">
+
+        </com.google.android.material.button.MaterialButton>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.PointerIcon;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -348,6 +349,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnCamera.setVisibility(binding.getRoot().INVISIBLE);
         btnProfil.setVisibility(binding.getRoot().INVISIBLE);
         btnGallery.setVisibility(binding.getRoot().INVISIBLE);
+        binding.linearLayout6.setVisibility(binding.getRoot().INVISIBLE);
     }
 
     //maps activity'deki butonlar gösteriliyor.
@@ -355,6 +357,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnCamera.setVisibility(binding.getRoot().VISIBLE);
         btnProfil.setVisibility(binding.getRoot().VISIBLE);
         btnGallery.setVisibility(binding.getRoot().VISIBLE);
+        binding.linearLayout6.setVisibility(binding.getRoot().VISIBLE);
     }
 
     //@param userUuid post'un sahibinin id'si, gidilmek istenen user profil.

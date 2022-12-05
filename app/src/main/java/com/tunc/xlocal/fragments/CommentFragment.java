@@ -92,7 +92,7 @@ public class CommentFragment extends Fragment {
         postDescription.setText(post.description);
         Picasso.get().load(post.postImageDownloadUrl).into(postImage);
 
-        commentEditText = binding.commentEditText;
+        commentEditText = binding.inputCommentTextEdit;
 
 
         btnDoComment = binding.btnComment;
