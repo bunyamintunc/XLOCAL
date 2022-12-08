@@ -130,7 +130,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
            }else{
                for(DocumentSnapshot document: value.getDocuments()){
-                     if(document.get("user_uuid").equals(auth.getCurrentUser().getUid())){
+                     if(document.get("user_uuid").equals(userUuid)){
                          btnFollow.setVisibility(View.GONE);
                      }
                }

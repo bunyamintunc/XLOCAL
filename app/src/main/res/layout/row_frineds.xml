@@ -2,40 +2,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="5dp"
-    android:layout_marginStart="10dp">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/userProfilPhoto"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@drawable/indir">
-        
-    </de.hdodenhof.circleimageview.CircleImageView>
+    android:layout_marginStart="2sp"
+    android:layout_marginEnd="5sp">
 
-    <TextView
-        android:id="@+id/userName"
-        android:layout_width="128dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="117dp"
-        android:hint="username"
-        android:textAlignment="center">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <ImageButton
-        android:id="@+id/sendMessageButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/chat"
-        android:src="@drawable/chat">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userProfilPhoto"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/indir">
 
-    </ImageButton>
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3sp"
+                android:textSize="25sp"
+                android:layout_marginTop="0sp"
+                android:hint="username">
+
+            </TextView>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sendMessageButton"
+                android:layout_marginStart="120sp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="50sp"
+                android:layout_marginTop="6sp"
+                android:layout_height="50sp"
+                app:icon="@drawable/ic_send_message_24">
+
+            </com.google.android.material.button.MaterialButton>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
