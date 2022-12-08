@@ -69,7 +69,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100sp"
+        android:layout_height="90sp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="horizontal">
@@ -80,7 +80,7 @@
 
             android:layout_width="300sp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="21sp"
+            android:layout_marginTop="20sp"
             android:hint="What do you think?"
             app:boxStrokeColor="@color/color7">
 
@@ -100,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="65sp"
             android:shadowColor="@color/color2"
+            android:layout_marginTop="20sp"
             android:textColor="@color/color7"
             app:icon="@drawable/ic_icon_comment_24"
             app:iconGravity="textEnd"

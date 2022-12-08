@@ -97,7 +97,7 @@ public class CommentFragment extends Fragment {
 
         btnDoComment = binding.btnComment;
         btnDoComment.setOnClickListener(view1 -> {
-             if (commentEditText.equals("")){
+             if (commentEditText.getText().equals("")){
 
              }else{
                  doComment();
@@ -156,12 +156,15 @@ public class CommentFragment extends Fragment {
         commentData.put("comment",commentEditText.getText().toString());
         commentData.put("profil_photo_url",userDownloadUrl);
 
-        firebaseFirestore.collection("PostTable").document(postId).collection("Comments").add(commentData).addOnSuccessListener(documentReference -> {
-            increaseFieldOfUser("countOfComment",commentList.size());
-        });
-        commentEditText.setText("");
-        commentList.clear();
-        commentAdapter.notifyDataSetChanged();
+       
+            firebaseFirestore.collection("PostTable").document(postId).collection("Comments").add(commentData).addOnSuccessListener(documentReference -> {
+                increaseFieldOfUser("countOfComment",commentList.size());
+            });
+            commentEditText.setText("");
+            commentList.clear();
+            commentAdapter.notifyDataSetChanged();
+
+
     }
 
 
@@ -188,6 +191,7 @@ public class CommentFragment extends Fragment {
     public void increaseFieldOfUser(String name,int countOf){
         countOf = countOf+1;
         firebaseFirestore.collection("Users").document(post.userUudi).update(name,countOf);
+        firebaseFirestore.collection("Post").document(post.documentId).update("count_of_comment",countOf);
     }
 
 
