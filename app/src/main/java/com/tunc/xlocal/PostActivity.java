@@ -168,7 +168,7 @@ public class PostActivity extends AppCompatActivity {
                             firebaseFirestore.collection("Post").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    createOtherTableForPost(documentReference.getId());
+                                   // createOtherTableForPost(documentReference.getId());
                                     goToMapActivity();
                                 }
                             });
