@@ -6,50 +6,72 @@
     android:layout_height="match_parent"
     tools:context=".PostActivity">
 
-    <ImageView
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ImageVievPostActivity"
-        android:layout_width="390dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
         android:onClick="uploadImageView"
-        app:layout_constraintBottom_toTopOf="@+id/editTextAciklamaPostActivity"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/indir">
 
-    <Button
+    </com.google.android.material.imageview.ShapeableImageView>
+
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/postButtonInPostActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="300sp"
+        android:layout_height="70sp"
+        android:layout_marginTop="5dp"
         android:onClick="savePost"
-        android:layout_marginBottom="82dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Share"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.576"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAciklamaPostActivity" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
-    <EditText
-        android:id="@+id/editTextAciklamaPostActivity"
-        android:layout_width="376dp"
+    </com.google.android.material.button.MaterialButton>
 
-        android:layout_height="165dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="46dp"
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
 
-        android:background="#8FCFEC"
-        android:gravity="top"
-        android:hint="açıklama giriniz."
-        android:inputType="textMultiLine"
-        android:lines="8"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/postButtonInPostActivity"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="130dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ImageVievPostActivity">
 
-    </EditText>
+        <com.google.android.material.textfield.TextInputLayout
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="What do you think?"
+            app:boxStrokeColor="@color/color7"
+            tools:layout_editor_absoluteX="29dp"
+            tools:layout_editor_absoluteY="199dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextAciklamaPostActivity"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                android:layout_margin="10sp"
+                android:layout_marginStart="8sp"
+
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

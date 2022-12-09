@@ -27,6 +27,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.PointerIcon;
 import android.view.View;
@@ -91,56 +92,79 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String loginUserRole;
 
     public MapsActivity(){
-
+        auth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        Log.d("maps cunstructor","maps cunstructor");
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        postArray = new ArrayList<Post>();
-        auth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        getLoginUser();
-        isThereAUser();
 
-        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
+        Log.d("Log","maps on create");
 
-        account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account != null){
-            System.out.println("googuser--------------->"+account.getDisplayName());
-        }
 
-        isThereFollowingRequest();
+           if( auth.getCurrentUser() != null){
+               postArray = new ArrayList<Post>();
+               Log.d("Log","login user var ");
 
-        btnCamera = binding.btnCamera;
-        btnProfil = binding.btnProfil;
-        btnGallery = binding.btnGalery;
+                   getLoginUser();
+                   isThereAUser();
 
 
 
-        btnGallery.setOnClickListener(view -> {
-            if(loginUserRole.equals("admin")){
-                Intent goToComplaint = new Intent(this,ComplaintsActivity.class);
-                startActivity(goToComplaint);
-            }else{
-                Intent goToFriendActivity = new Intent(this, FriendsActivity.class);
-                startActivity(goToFriendActivity);
-                //  finish();
-            }
+               googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+               googleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
 
-        });
+               account = GoogleSignIn.getLastSignedInAccount(this);
+               if(account != null){
+                   System.out.println("googuser--------------->"+account.getDisplayName());
+               }
+
+               isThereFollowingRequest();
+
+               btnCamera = binding.btnCamera;
+               btnProfil = binding.btnProfil;
+               btnGallery = binding.btnGalery;
+
+
+
+               btnGallery.setOnClickListener(view -> {
+                   if(loginUserRole.equals("admin")){
+                       Intent goToComplaint = new Intent(this,ComplaintsActivity.class);
+                       startActivity(goToComplaint);
+                   }else{
+                       Intent goToFriendActivity = new Intent(this, FriendsActivity.class);
+                       startActivity(goToFriendActivity);
+                       //  finish();
+                   }
+
+               });
 
 
 
 
-        reqisterLauncher();
+               reqisterLauncher();
 
-        getPosts();
+               getPosts();
 
+
+
+
+
+
+
+
+               binding.btnNotification.setOnClickListener(view -> {
+                   showFollowRequest();
+               });
+
+           }else{
+               Log.d("Log","maps on create login user yok");
+               Toast.makeText(this,"Merhaba"+auth.getCurrentUser(),Toast.LENGTH_LONG).show();
+           }
 
 
 
@@ -150,10 +174,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
-
-         binding.btnNotification.setOnClickListener(view -> {
-               showFollowRequest();
-         });
 
 
 
@@ -274,6 +294,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void goToProfile(View view){
         Intent goToProfileDetailsActivity = new Intent(this,Profile.class);
         startActivity(goToProfileDetailsActivity);
+        this.finish();
     }
 
     public void openCamera(View view){
@@ -379,7 +400,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("FollowRequests").addSnapshotListener((value, error) -> {
 
-           if ( value.isEmpty() ){
+           if (value !=null && value.isEmpty() ){
 
            }else {
                for ( DocumentSnapshot documet : value.getDocuments() ){
@@ -420,18 +441,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //giris yapan kullanıcıyı getiriyoruz
     public void getLoginUser(){
-
-        firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener((value, error) -> {
-            if (value.exists()){
-                  loginUserRole = value.get("role").toString();
-                  if(loginUserRole.equals("admin")){
-                     btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_complaint_icon_24));
-                  }else{
-                      btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_send_message_24));
-                  }
-            }
-        });
-
+    Log.d("Log","Get login User çalışıyor. maps activitiy");
+       if(auth.getCurrentUser() != null) {
+           firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener((value, error) -> {
+               if (value.exists()) {
+                   loginUserRole = value.get("role").toString();
+                   if (loginUserRole.equals("admin")) {
+                       btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_complaint_icon_24));
+                   } else {
+                       btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_send_message_24));
+                   }
+               }
+           });
+       }
 
     }
 
@@ -450,4 +472,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          });
     }
 
+    @Override
+    protected void onDestroy() {
+        Log.d("Log","Maps activityse yok edildi");
+        super.onDestroy();
+    }
 }

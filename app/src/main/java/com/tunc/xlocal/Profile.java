@@ -7,10 +7,13 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.tunc.xlocal.fragments.ProfileDetailsFragment;
 import com.tunc.xlocal.fragments.ProfileEditFragment;
+
+import java.util.Map;
 
 public class Profile extends AppCompatActivity {
 
@@ -19,6 +22,8 @@ public class Profile extends AppCompatActivity {
     private ProfileDetailsFragment profileDetailsFragment;
     private ProfileEditFragment profileEditFragment;
     private FirebaseAuth auth;
+    private MapsActivity mapsActivity;
+
 
 
     @Override
@@ -69,13 +74,21 @@ public class Profile extends AppCompatActivity {
     }
 
     public void logOut(){
-        finish();
+        Log.d("Log","Log out method calışıyor.");
         removeProfileDetailsFragment();
-        removeProfileEditFragment();
-        FirebaseAuth.getInstance().signOut();
-        Intent intent  = new Intent(this,MainActivity.class);
+
+        try {
+            auth.signOut();
+        }catch (Exception e){
+
+        }
+
+
+        Intent intent  = new Intent(getApplicationContext(),MainActivity.class);
 
         startActivity(intent);
+        finish();
+
 
     }
 

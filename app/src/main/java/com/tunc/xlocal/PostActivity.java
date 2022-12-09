@@ -169,7 +169,7 @@ public class PostActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     createOtherTableForPost(documentReference.getId());
-                                    Toast.makeText(PostActivity.this,"Başarılı",Toast.LENGTH_LONG).show();
+                                    goToMapActivity();
                                 }
                             });
                         }

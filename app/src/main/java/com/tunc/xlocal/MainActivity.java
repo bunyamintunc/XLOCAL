@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -32,16 +33,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d("Log"," main activity çalıştı");
         auth = FirebaseAuth.getInstance();
 
-        if(auth.getCurrentUser() != null  ){
+        if(auth.getCurrentUser() != null ){
+            Log.d("Log","maps activityyseine gidiliyot");
             Intent goToMapsActivity = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(goToMapsActivity);
             finish();
+
+
         }else{
             //login fragment bağlanması
+            Log.d("Log","login yapan kullanıcı yok main activity");
              addLoginFragment();
+
 
         }
 
@@ -70,10 +76,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addLoginFragment(){
+        Log.d("Log","add login fragment çalışıyor.");
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         loginFragment = new LoginFragment();
         fragmentTransaction.add(R.id.framebirinci,loginFragment).commit();
+        Log.d("Log","add login fragment bitti.");
     }
 
 

@@ -58,8 +58,11 @@ public class ProfileDetailsFragment  extends Fragment {
         auth = FirebaseAuth.getInstance();
 
 
-        isCurrentUser();
-        isThereAUser();
+
+            isCurrentUser();
+            isThereAUser();
+
+
 
     }
 
@@ -177,8 +180,8 @@ public class ProfileDetailsFragment  extends Fragment {
     }
 
     private void logOut(){
+      profileActivity.logOut();
 
-   profileActivity.logOut();
 
 
 
