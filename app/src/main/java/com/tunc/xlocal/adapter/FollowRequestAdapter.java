@@ -3,10 +3,12 @@ package com.tunc.xlocal.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,6 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+import com.tunc.xlocal.MapsActivity;
+import com.tunc.xlocal.R;
 import com.tunc.xlocal.databinding.RecylerRowBinding;
 import com.tunc.xlocal.databinding.RowFollowRequestBinding;
 import com.tunc.xlocal.model.Comment;
@@ -34,11 +38,14 @@ public class FollowRequestAdapter extends RecyclerView.Adapter<FollowRequestAdap
     private String userProfilUrl;
     private String userName;
     private String userUuid;
-    public FollowRequestAdapter(ArrayList<FollowRequest> arrayList){
+    private MapsActivity mapsActivity;
+    public FollowRequestAdapter(ArrayList<FollowRequest> arrayList, MapsActivity mapsActivity){
         this.requestArrayList = arrayList;
         firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        this.mapsActivity = mapsActivity;
         getCurretUser();
+
 
     }
 
@@ -57,7 +64,7 @@ public class FollowRequestAdapter extends RecyclerView.Adapter<FollowRequestAdap
       holder.followRequestBinding.followRequestUserName.setText(requestArrayList.get(position).userName);
       Picasso.get().load(requestArrayList.get(position).photoUrl).into(holder.followRequestBinding.userPhoto);
       holder.followRequestBinding.followRequestAccept.setOnClickListener(view -> {
-           addFriend(requestArrayList.get(position));
+           addFriend(requestArrayList.get(position),holder.followRequestBinding.followRequestAccept);
 
       });
     }
@@ -77,13 +84,16 @@ public class FollowRequestAdapter extends RecyclerView.Adapter<FollowRequestAdap
         }
     }
 
-    public void addFriend(FollowRequest request){
+    public void addFriend(FollowRequest request, Button btn){
         HashMap<String,Object> followRequestData = new HashMap<>();
         followRequestData.put("user_uuid",request.userUuid);
         followRequestData.put("user_name",request.userName);
         followRequestData.put("profil_photo_url",request.photoUrl);
         firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("Followers").add(followRequestData).addOnSuccessListener(documentReference -> {
            increaseFieldOfUser(auth.getCurrentUser().getUid(),"countOfFollowers");
+           mapsActivity.refleshFriendRequest();
+           btn.setBackgroundColor(ContextCompat.getColor(mapsActivity,R.color.teal_200));
+
         });
 
         HashMap<String,Object> followBakcData = new HashMap<>();
@@ -93,6 +103,7 @@ public class FollowRequestAdapter extends RecyclerView.Adapter<FollowRequestAdap
         firebaseFirestore.collection("Users").document(request.userUuid).collection("Followers").add(followBakcData).addOnSuccessListener(documentReference -> {
             increaseFieldOfUser(request.userUuid,"countOfFollowers");
             deleteFollowRequest(request.userUuid);
+            notifyDataSetChanged();
         });
     }
 

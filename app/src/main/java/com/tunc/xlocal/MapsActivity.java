@@ -90,6 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleSignInAccount account;
     private ArrayList<FollowRequest> followRequestArrayList = new ArrayList();
     private String loginUserRole;
+    private FollowRequestAdapter followRequestAdapter;
 
     public MapsActivity(){
         auth = FirebaseAuth.getInstance();
@@ -429,7 +430,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         View dialogView = LayoutInflater.from(binding.getRoot().getContext()).inflate(R.layout.follow_request_list_alert,null);
         RecyclerView followRecyler = dialogView.findViewById(R.id.followRequestListRecylerView);
         followRecyler.setLayoutManager(new LinearLayoutManager(this.getBaseContext()));
-        FollowRequestAdapter followRequestAdapter = new FollowRequestAdapter(followRequestArrayList);
+        followRequestAdapter = new FollowRequestAdapter(followRequestArrayList,this);
         followRecyler.setAdapter(followRequestAdapter);
         builder.setView(dialogView);
         builder.setCancelable(true);
@@ -476,5 +477,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onDestroy() {
         Log.d("Log","Maps activityse yok edildi");
         super.onDestroy();
+    }
+
+    public void refleshFriendRequest(){
+         followRequestArrayList.clear();
+         followRequestAdapter.notifyDataSetChanged();
     }
 }

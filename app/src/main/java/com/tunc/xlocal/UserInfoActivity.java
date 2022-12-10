@@ -85,7 +85,7 @@ public class UserInfoActivity extends AppCompatActivity {
         followRequestData.put("user_name",userName);
         followRequestData.put("profil_photo_url",profilPhotoUrl);
         firebaseFirestore.collection("Users").document(userUuid).collection("FollowRequests").add(followRequestData).addOnSuccessListener(documentReference -> {
-             hiddenFollowButton();
+             //hiddenFollowButton();
         });
     }
 
@@ -103,6 +103,10 @@ public class UserInfoActivity extends AppCompatActivity {
         btnFollow.setClickable(false);
         btnFollow.setBackgroundColor(ContextCompat.getColor(this,R.color.teal_200));
 
+    }
+
+    public void unFollowButton(){
+        btnFollow.setBackgroundColor(ContextCompat.getColor(this,R.color.teal_700));
     }
 
     public void deleteFollowButton(){
@@ -131,7 +135,7 @@ public class UserInfoActivity extends AppCompatActivity {
            }else{
                for(DocumentSnapshot document: value.getDocuments()){
                      if(document.get("user_uuid").equals(userUuid)){
-                         btnFollow.setVisibility(View.GONE);
+                         unFollowButton();
                      }
                }
            }
