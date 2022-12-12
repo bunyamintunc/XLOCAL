@@ -123,23 +123,28 @@ public class ProfileDetailsFragment  extends Fragment {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                        String name = (String) value.getData().get("name");
-                        String username = (String) value.getData().get("userName");
-                        String surname = (String) value.getData().get("surname");
-                        String gender =  (String) value.getData().get("gender");
-                        String profilUrl = (String) value.getData().get("profilePhotoDowloadUrl");
-                        textFriendList.setText(value.getData().get("countOfFollowers").toString());
-                        textCountOfComment.setText(value.getData().get("countOfComment").toString());
-                        textCountOfJoin.setText(value.getData().get("countOfJoin").toString());
-                        textCountOfLike.setText(value.getData().get("countOfLike").toString());
-                        textCountOfComplaint.setText(value.getData().get("countOfConfirm").toString());
+                try {
+                    String name = (String) value.getData().get("name");
+                    String username = (String) value.getData().get("userName");
+                    String surname = (String) value.getData().get("surname");
+                    String gender =  (String) value.getData().get("gender");
+                    String profilUrl = (String) value.getData().get("profilePhotoDowloadUrl");
+                    textFriendList.setText(value.getData().get("countOfFollowers").toString());
+                    textCountOfComment.setText(value.getData().get("countOfComment").toString());
+                    textCountOfJoin.setText(value.getData().get("countOfJoin").toString());
+                    textCountOfLike.setText(value.getData().get("countOfLike").toString());
+                    textCountOfComplaint.setText(value.getData().get("countOfConfirm").toString());
 
-                        System.out.println(name +" "+ surname);
-                        newUser = new User(name,username,surname,gender,profilUrl);
+                    System.out.println(name +" "+ surname);
+                    newUser = new User(name,username,surname,gender,profilUrl);
 
-                        if(newUser != null){
-                            insertToVeriableForCurrentUser();
-                         }
+                    if(newUser != null){
+                        insertToVeriableForCurrentUser();
+                    }
+                }catch (Exception e){
+
+                }
+
 
 
             }
@@ -163,19 +168,27 @@ public class ProfileDetailsFragment  extends Fragment {
 
 
     public boolean isCurrentUser(){
-        firebaseFirestore.collection("Users").addSnapshotListener((value, error) -> {
-            if (value.isEmpty()){
-                Toast.makeText(getContext(), "users table is empty", Toast.LENGTH_SHORT).show();
-            }else{
+        try {
+            firebaseFirestore.collection("Users").addSnapshotListener((value, error) -> {
+                if (value != null){
+                    if (value.isEmpty()){
+                        Toast.makeText(getContext(), "users table is empty", Toast.LENGTH_SHORT).show();
+                    }else{
 
-                for(DocumentSnapshot document : value.getDocuments()){
-                        if (auth.getCurrentUser().getUid().equals(document.getId())){
-                            isCurrentUserResult = true;
-                            getUserDetails();
+                        for(DocumentSnapshot document : value.getDocuments()){
+                            if (auth.getCurrentUser().getUid().equals(document.getId())){
+                                isCurrentUserResult = true;
+                                getUserDetails();
+                            }
                         }
+                    }
                 }
-            }
-        });
+
+            });
+        }catch (Exception e){
+
+        }
+
         return isCurrentUserResult;
     }
 

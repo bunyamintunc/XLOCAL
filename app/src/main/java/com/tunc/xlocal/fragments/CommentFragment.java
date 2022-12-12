@@ -67,6 +67,8 @@ public class CommentFragment extends Fragment {
         this.post = post;
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        getUserDetails();
+        getComments();
     }
 
 
@@ -82,8 +84,8 @@ public class CommentFragment extends Fragment {
 
 
 
-        getUserDetails();
-        getComments();
+
+
 
 
 
@@ -120,27 +122,35 @@ public class CommentFragment extends Fragment {
             if(value.isEmpty()){
 
             }else{
+                try {
+                    for(DocumentSnapshot document : value.getDocuments()){
+                        if (document.exists()){
+                            Comment comment = new Comment();
+                            comment.userName =  document.get("user_name").toString();
+                            comment.comment = document.get("comment").toString();
+                            comment.imageUrl =  document.get("profil_photo_url").toString();
+                            comment.userUuid =  document.get("user_uuid").toString();
+                            commentList.add(comment);
 
-                for(DocumentSnapshot document : value.getDocuments()){
-                   if (document.exists()){
-                       Comment comment = new Comment();
-                       comment.userName =  document.get("user_name").toString();
-                       comment.comment = document.get("comment").toString();
-                       comment.imageUrl =  document.get("profil_photo_url").toString();
-                       comment.userUuid =  document.get("user_uuid").toString();
-                       commentList.add(comment);
-                   }else{
 
-                   }
+                        }else{
+
+                        }
+
+                        binding.recyclerViewCommentFragment.setLayoutManager(new LinearLayoutManager(this.getContext()));
+                        commentAdapter = new CommentAdapter(commentList);
+                        binding.recyclerViewCommentFragment.setAdapter(commentAdapter);
+
+                    }
+                }catch (Exception e){
 
                 }
 
 
+
             }
 
-            binding.recyclerViewCommentFragment.setLayoutManager(new LinearLayoutManager(this.getContext()));
-            commentAdapter = new CommentAdapter(commentList);
-            binding.recyclerViewCommentFragment.setAdapter(commentAdapter);
+
 
         });
 

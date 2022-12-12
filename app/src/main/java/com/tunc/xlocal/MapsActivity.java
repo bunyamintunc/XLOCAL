@@ -6,7 +6,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -21,7 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
+
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -29,10 +29,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.PointerIcon;
+
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -46,26 +46,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
+
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.tunc.xlocal.adapter.CommentAdapter;
+
 import com.tunc.xlocal.adapter.FollowRequestAdapter;
 import com.tunc.xlocal.databinding.ActivityMapsBinding;
 import com.tunc.xlocal.fragments.PostFragment;
 import com.tunc.xlocal.model.FollowRequest;
 import com.tunc.xlocal.model.Post;
-import com.tunc.xlocal.model.User;
 
-import org.checkerframework.checker.index.qual.PolyUpperBound;
+
 
 import java.util.ArrayList;
 
@@ -330,32 +324,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public  void getPosts(){
+         try {
+             firebaseFirestore.collection("Post").addSnapshotListener((value, error) -> {
 
-        firebaseFirestore.collection("Post").addSnapshotListener((value, error) -> {
+                 if (value != null){
+                     if (value.isEmpty() || value == null){
+                         Toast.makeText(this, " There is an error in the getPost Method", Toast.LENGTH_SHORT).show();
+                     }else{
+                         // Eğer post sorgusu boş değilse postları bir post tipindeki array'e atıyoruz.
 
-            if (value.isEmpty() || value == null){
-                Toast.makeText(this, " There is an error in the getPost Method", Toast.LENGTH_SHORT).show();
-            }else{
-                // Eğer post sorgusu boş değilse postları bir post tipindeki array'e atıyoruz.
+                         for(DocumentSnapshot document : value.getDocuments()){
+                             try {
+                                 Post getPost = new Post();
+                                 getPost.countOfComment = (long) document.get("count_of_comment");
+                                 getPost.countOfConfirm = (long) document.get("count_of_confirm");
+                                 getPost.countOfJoin = (long) document.get("count_of_join");
+                                 getPost.countOfLike = (long) document.get("count_of_like");
+                                 getPost.date = document.getDate("date");
+                                 getPost.description = document.get("desciription").toString();
+                                 getPost.postImageDownloadUrl = document.get("post_image_download_url").toString();
+                                 getPost.userUudi = document.get("user_uuid").toString();
+                                 getPost.latitute =(double) document.get("latitude");
+                                 getPost.longitute = (double) document.get("longitude");
+                                 getPost.documentId = document.getId();
+                                 postArray.add(getPost);
+                             }catch (Exception e){
 
-                for(DocumentSnapshot document : value.getDocuments()){
-                    Post getPost = new Post();
-                    getPost.countOfComment = (long) document.get("count_of_comment");
-                    getPost.countOfConfirm = (long) document.get("count_of_confirm");
-                    getPost.countOfJoin = (long) document.get("count_of_join");
-                    getPost.countOfLike = (long) document.get("count_of_like");
-                    getPost.date = document.getDate("date");
-                    getPost.description = document.get("desciription").toString();
-                    getPost.postImageDownloadUrl = document.get("post_image_download_url").toString();
-                    getPost.userUudi = document.get("user_uuid").toString();
-                    getPost.latitute =(double) document.get("latitude");
-                    getPost.longitute = (double) document.get("longitude");
-                    getPost.documentId = document.getId();
-                    postArray.add(getPost);
+                             }
 
-                }
-            }
-        });
+
+                         }
+                     }
+                 }
+
+             });
+         }catch (Exception e){
+
+         }
+
     }
 
     //postFragment'i maps fragmentten kaldiriyoruz.
@@ -398,29 +404,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //takipci isteiği var mi kontrol ediliyor.
     public void isThereFollowingRequest(){
+       try {
+           firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("FollowRequests").addSnapshotListener((value, error) -> {
 
-       firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("FollowRequests").addSnapshotListener((value, error) -> {
+               if (value !=null && value.isEmpty() ){
 
-           if (value !=null && value.isEmpty() ){
+               }else {
+                   try {
+                       for ( DocumentSnapshot documet : value.getDocuments() ){
+                           try {
+                               FollowRequest follower = new FollowRequest();
+                               follower.photoUrl = documet.getData().get("profil_photo_url").toString();
+                               follower.userName = documet.get("user_name").toString();
+                               follower.userUuid = documet.get("request_owner_uuid").toString();
+                               followRequestArrayList.add(follower);
+                           }catch (Exception e){
 
-           }else {
-               for ( DocumentSnapshot documet : value.getDocuments() ){
+                           }
 
-                   FollowRequest follower = new FollowRequest();
-                   follower.photoUrl = documet.getData().get("profil_photo_url").toString();
-                   follower.userName = documet.get("user_name").toString();
-                   follower.userUuid = documet.get("request_owner_uuid").toString();
-                   followRequestArrayList.add(follower);
+                       }
+                   }catch (Exception e){
+
+                   }
                }
+               if(followRequestArrayList.size()>0){
+                   Toast.makeText(this,"Evet büyük",Toast.LENGTH_LONG).show();
+                   binding.btnNotification.setVisibility(binding.getRoot().VISIBLE);
+                   String countOfFollowRequest = String.valueOf(followRequestArrayList.size());
+                   binding.btnNotification.setText(countOfFollowRequest);
+               }
+           });
 
-           }
-           if(followRequestArrayList.size()>0){
-               Toast.makeText(this,"Evet büyük",Toast.LENGTH_LONG).show();
-               binding.btnNotification.setVisibility(binding.getRoot().VISIBLE);
-               String countOfFollowRequest = String.valueOf(followRequestArrayList.size());
-               binding.btnNotification.setText(countOfFollowRequest);
-           }
-       });
+       }catch (Exception e){
+
+       }
 
     }
 
@@ -442,35 +459,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //giris yapan kullanıcıyı getiriyoruz
     public void getLoginUser(){
-    Log.d("Log","Get login User çalışıyor. maps activitiy");
-       if(auth.getCurrentUser() != null) {
-           firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener((value, error) -> {
-               if (value.exists()) {
-                   loginUserRole = value.get("role").toString();
-                   if (loginUserRole.equals("admin")) {
-                       btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_complaint_icon_24));
-                   } else {
-                       btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_send_message_24));
-                   }
-               }
-           });
-       }
+
+        try {
+            Log.d("Log","Get login User çalışıyor. maps activitiy");
+            if(auth.getCurrentUser() != null) {
+                try {
+                    firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).addSnapshotListener((value, error) -> {
+                        if (value != null){
+                            if (value.exists()) {
+                                loginUserRole = value.get("role").toString();
+                                if (loginUserRole.equals("admin")) {
+                                    btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_complaint_icon_24));
+                                } else {
+                                    btnGallery.setBackground(getResources().getDrawable(R.drawable.ic_send_message_24));
+                                }
+                            }
+                        }
+
+                    });
+                }catch (Exception e){
+
+                }
+
+            }
+        }catch (Exception e){
+
+        }
+
 
     }
 
     public void isThereAUser(){
-         firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
-             if (task.isSuccessful()){
-                 DocumentSnapshot document = task.getResult();
-                 if(document.exists()){
-                       System.out.println("User var");
-                 }else{
-                    Intent goToProfileActivity = new Intent(getBaseContext(),Profile.class);
-                    startActivity(goToProfileActivity);
-                    finish();
-                 }
-             }
-         });
+        try {
+            firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        System.out.println("User var");
+                    }else{
+                        Intent goToProfileActivity = new Intent(getBaseContext(),Profile.class);
+                        startActivity(goToProfileActivity);
+                        finish();
+                    }
+                }
+            });
+        }catch (Exception e){
+
+        }
+
     }
 
     @Override

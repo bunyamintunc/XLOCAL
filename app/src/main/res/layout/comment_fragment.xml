@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
+    android:background="@color/white"
     android:layout_height="match_parent"
 
 
-    android:background="@color/color2">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="5sp"
         android:layout_marginEnd="5sp"
-        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
@@ -40,16 +40,17 @@
 
         <TextView
             android:id="@+id/commentTextPost"
-            android:layout_width="385sp"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:layout_marginTop="5sp"
+            android:layout_marginEnd="10sp"
             android:layout_marginBottom="5sp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/commentImageView" />
-
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -64,12 +65,12 @@
             app:layout_constraintTop_toBottomOf="@+id/commentTextPost" />
 
 
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="90sp"
+
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="horizontal">
@@ -99,8 +100,8 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="65sp"
-            android:shadowColor="@color/color2"
             android:layout_marginTop="20sp"
+            android:shadowColor="@color/color2"
             android:textColor="@color/color7"
             app:icon="@drawable/ic_icon_comment_24"
             app:iconGravity="textEnd"
