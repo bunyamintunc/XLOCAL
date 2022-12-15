@@ -133,9 +133,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                    }else{
                        Intent goToFriendActivity = new Intent(this, FriendsActivity.class);
                        startActivity(goToFriendActivity);
-                       //  finish();
+                       // finish();
                    }
 
+               });
+
+               btnProfil.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       Intent goToProfileActivity = new Intent(getBaseContext(),Profile.class);
+                       startActivity(goToProfileActivity);
+                   }
                });
 
 
@@ -499,7 +507,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }else{
                         Intent goToProfileActivity = new Intent(getBaseContext(),Profile.class);
                         startActivity(goToProfileActivity);
-                        finish();
                     }
                 }
             });

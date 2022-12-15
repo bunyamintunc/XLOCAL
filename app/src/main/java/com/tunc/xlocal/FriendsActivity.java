@@ -51,18 +51,21 @@ public class FriendsActivity extends AppCompatActivity {
 
     public  void getFriendList(){
         firebaseFirestore.collection("Users").document(auth.getCurrentUser().getUid()).collection("Followers").addSnapshotListener((value, error) -> {
-            if (value.isEmpty()){
+           if (value != null){
+               if (value.isEmpty()){
 
-            }else{
+               }else{
 
-                for (DocumentSnapshot document : value.getDocuments()){
-                    FollowRequest friend = new FollowRequest();
-                    friend.userUuid = document.get("user_uuid").toString();
-                    friend.userName = document.get("user_name").toString();
-                    friend.photoUrl = document.get("profil_photo_url").toString();
-                    friendList.add(friend);
-                }
-            }
+                   for (DocumentSnapshot document : value.getDocuments()){
+                       FollowRequest friend = new FollowRequest();
+                       friend.userUuid = document.get("user_uuid").toString();
+                       friend.userName = document.get("user_name").toString();
+                       friend.photoUrl = document.get("profil_photo_url").toString();
+                       friendList.add(friend);
+                   }
+               }
+           }
+
         });
     }
 
